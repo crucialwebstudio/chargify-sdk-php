@@ -1,0 +1,21 @@
+HTTP/1.1 422 status code 422
+Cache-Control: no-cache
+Content-Type: application/json; charset=utf-8
+Date: Sun, 15 Mar 2015 23:53:18 GMT
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Set-Cookie: removed
+Status: 422 Unprocessable Entity
+X-Frame-Options: SAMEORIGIN
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: invalidate, pass
+X-Ratelimit-Limit: 1000000
+X-Ratelimit-Remaining: 999958
+X-Ratelimit-Reset: 1426464000
+X-Request-Id: removed
+X-Runtime: 0.083873
+X-Ua-Compatible: IE=Edge,chrome=1
+Content-Length: 246
+Connection: keep-alive
+
+{"errors":["Shipping Address: cannot be blank.","Shipping City: cannot be blank.","Shipping State: cannot be blank.","Shipping Country: cannot be blank.","Shipping ZIP code: cannot be blank.","Customer: does not have a Shipping Address on file"]}

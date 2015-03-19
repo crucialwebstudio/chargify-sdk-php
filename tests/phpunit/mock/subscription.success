@@ -1,0 +1,26 @@
+HTTP/1.1 201 Created
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+Date: Thu, 19 Mar 2015 00:28:48 GMT
+Etag: "66d769f8a0864265e82c1e9a51b6a969"
+Location: https://fake.chargify.com/subscriptions/123456
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Set-Cookie: removed
+Status: 201 Created
+Strict-Transport-Security: max-age=31536000
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: invalidate, pass
+X-Ratelimit-Limit: 1000000
+X-Ratelimit-Remaining: 999998
+X-Ratelimit-Reset: 1426809600
+X-Request-Id: removed
+X-Runtime: 2.413784
+X-Ua-Compatible: IE=Edge,chrome=1
+X-Xss-Protection: 1; mode=block
+transfer-encoding: chunked
+Connection: keep-alive
+
+{"subscription":{"activated_at":null,"balance_in_cents":0,"cancel_at_end_of_period":false,"canceled_at":null,"cancellation_message":null,"created_at":"2015-03-18T20:28:46-04:00","current_period_ends_at":"2015-04-18T20:28:46-04:00","expires_at":null,"id":8161371,"next_assessment_at":"2015-04-18T20:28:46-04:00","payment_collection_method":"automatic","snap_day":null,"state":"trialing","trial_ended_at":"2015-04-18T20:28:46-04:00","trial_started_at":"2015-03-18T20:28:46-04:00","updated_at":"2015-03-18T20:28:48-04:00","current_period_started_at":"2015-03-18T20:28:46-04:00","previous_state":"trialing","signup_payment_id":88207881,"signup_revenue":"0.00","delayed_cancel_at":null,"coupon_code":null,"total_revenue_in_cents":0,"product_price_in_cents":6500,"product_version_number":2,"payment_type":"credit_card","referral_code":null,"customer":{"address":"123 Main St","address_2":"Apt 123","city":"New York","country":"US","created_at":"2015-03-18T20:28:46-04:00","email":"darryl@mailinator.com","first_name":"Darryl","id":8003316,"last_name":"Strawberry","organization":"Mets","phone":"555-555-1234","portal_customer_created_at":"2015-03-18T20:28:48-04:00","portal_invite_last_accepted_at":null,"portal_invite_last_sent_at":null,"reference":null,"state":"NY","updated_at":"2015-03-18T20:28:48-04:00","verified":false,"zip":"48433"},"product":{"accounting_code":"","archived_at":null,"created_at":"2013-08-03T12:31:21-04:00","description":"New Idea description","expiration_interval":null,"expiration_interval_unit":"never","handle":"basic-new-idea","id":3325662,"initial_charge_in_cents":null,"interval":1,"interval_unit":"month","name":"New Idea","price_in_cents":6500,"request_credit_card":true,"require_credit_card":true,"return_params":"","return_url":"","taxable":false,"trial_interval":1,"trial_interval_unit":"month","trial_price_in_cents":0,"update_return_url":"","updated_at":"2013-08-10T20:00:12-04:00","version_number":2,"product_family":{"accounting_code":null,"description":"Basic family description","handle":"basic","id":353117,"name":"Basic"},"public_signup_pages":[{"id":47763,"url":"http://dev-chargely.chargify.com/subscribe/c8863273c1e5/basic-new-idea"}]},"credit_card":{"billing_address":"600 N","billing_address_2":null,"billing_city":"Chicago","billing_country":"US","billing_state":"IL","billing_zip":"60610","card_type":"bogus","current_vault":"bogus","customer_id":8003316,"customer_vault_token":null,"expiration_month":3,"expiration_year":2016,"first_name":"Darryl2","id":5404660,"last_name":"Strawberry2","masked_card_number":"XXXX-XXXX-XXXX-1","vault_token":"1","payment_type":"credit_card"}}}

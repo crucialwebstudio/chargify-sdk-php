@@ -1,0 +1,24 @@
+<phpunit backupGlobals="true"
+         backupStaticAttributes="false"
+         bootstrap="bootstrap.php"
+         cacheTokens="false"
+         colors="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         mapTestClassNameToCoveredClassName="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
+         verbose="false">
+    <testsuites>
+        <testsuite name="Chargify V1">
+            <directory>lib/Crucial/Service/Chargify</directory>
+            <file>lib/Crucial/Service/ChargifyTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
