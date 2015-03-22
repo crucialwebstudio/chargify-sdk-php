@@ -2,7 +2,14 @@
     "name": "crucialwebstudio/chargify-sdk-php",
     "homepage": "https://github.com/crucialwebstudio/chargify-sdk-php",
     "description": "Chargify SDK for PHP - Use the Chargify API in your PHP project",
-    "keywords": ["chargify", "api", "sdk", "php"],
+    "keywords": [
+        "chargify",
+        "billing portal",
+        "api",
+        "sdk",
+        "php",
+        "chargely"
+    ],
     "type": "library",
     "license": "Apache-2.0",
     "authors": [
