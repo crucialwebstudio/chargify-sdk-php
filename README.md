@@ -1,8 +1,13 @@
+# Chargify SDK for PHP
+
+This library helps you interact with the Chargify API using PHP. It has been used in production for many years by our 
+flagship product, [Chargley, a billing portal for Chargify](http://www.getchargely.com).
+
 # Installation
 
-Using [Composer](https://getcomposer.org/) is the recommended way to install the Chargify SDK for PHP. Composer is a dependency management tool for 
-PHP that allows you to declare the dependencies your project needs and installs them into your project. In order to use 
-the SDK with Composer, you must do the following:
+Using [Composer](https://getcomposer.org/) is the recommended way to install the Chargify SDK for PHP. Composer is a 
+dependency management tool for PHP that allows you to declare the dependencies your project needs and installs them 
+into your project. In order to use the SDK with Composer, you must do the following:
 
 1. Add "crucialwebstudio/chargify-sdk-php" as a dependency in your project's composer.json file.
 
