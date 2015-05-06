@@ -13,7 +13,7 @@ into your project. In order to use the SDK with Composer, you must do the follow
 
         {
             "require": {
-                "crucialwebstudio/chargify-sdk-php": "0.0.1"
+                "chargely/chargify-sdk-php": "0.0.2"
             }
         }
 
