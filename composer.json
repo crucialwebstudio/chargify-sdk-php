@@ -1,6 +1,6 @@
 {
-    "name": "crucialwebstudio/chargify-sdk-php",
-    "homepage": "https://github.com/crucialwebstudio/chargify-sdk-php",
+    "name": "chargely/chargify-sdk-php",
+    "homepage": "https://github.com/chargely/chargify-sdk-php",
     "description": "Chargify SDK for PHP - Use the Chargify API in your PHP project",
     "keywords": [
         "chargify",
@@ -14,12 +14,12 @@
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "Crucial Web Studio",
-            "homepage": "http://www.crucialwebstudio.com"
+            "name": "Chargely",
+            "homepage": "http://www.chargely.com"
         }
     ],
     "support": {
-        "issues": "https://github.com/crucialwebstudio/chargify-sdk-php/issues"
+        "issues": "https://github.com/chargely/chargify-sdk-php/issues"
     },
     "require": {
         "php": ">=5.3.3",
