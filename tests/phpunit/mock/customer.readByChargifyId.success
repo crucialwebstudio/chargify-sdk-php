@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Cache-Control: must-revalidate, private, max-age=0
+Content-Type: application/json; charset=utf-8
+Date: Wed, 13 May 2015 01:58:30 GMT
+Etag: "2ed163f53d2ac199f5d9ec9c2f702da7"
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Set-Cookie: removed
+Status: 200 OK
+Strict-Transport-Security: max-age=31536000
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: miss
+X-Ratelimit-Limit: 1000000
+X-Ratelimit-Remaining: 999998
+X-Ratelimit-Reset: 1431561600
+X-Request-Id: removed
+X-Runtime: 0.022964
+X-Ua-Compatible: IE=Edge,chrome=1
+X-Xss-Protection: 1; mode=block
+Content-Length: 506
+Connection: keep-alive
+
+{"customer":{"first_name":"Darryl","last_name":"Strawberry","email":"darryl@mailinator.com","organization":"Mets","reference":"123456","id":8003316,"created_at":"2015-03-18T19:28:46-05:00","updated_at":"2015-05-12T20:43:26-05:00","address":"123 Main St","address_2":"Apt 123","city":"New York","state":"NY","zip":"48433","country":"US","phone":"555-555-1234","verified":false,"portal_customer_created_at":"2015-03-18T19:28:48-05:00","portal_invite_last_sent_at":null,"portal_invite_last_accepted_at":null}}
