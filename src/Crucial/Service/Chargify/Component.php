@@ -361,7 +361,7 @@ class Component extends AbstractEntity
 
         $responseArray = $this->getResponseArray($response);
 
-        if (!$this->isError() && '201' == $response->getStatus()) {
+        if (!$this->isError() && '201' == $response->getStatusCode()) {
             $this->_data = $responseArray['component'];
         } else {
             $this->_data = array();

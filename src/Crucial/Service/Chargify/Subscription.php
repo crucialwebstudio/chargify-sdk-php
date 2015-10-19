@@ -494,7 +494,7 @@ class Subscription extends AbstractEntity
         $response      = $service->request('subscriptions/' . (int)$id . '/reactivate', 'PUT', '', $params);
         $responseArray = $this->getResponseArray($response);
 
-        $code = $response->getStatus();
+        $code = $response->getStatusCode();
 
         /**
          * add some more errors for a bad response code. errors will be in the body of the response

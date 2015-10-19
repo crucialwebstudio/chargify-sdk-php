@@ -108,7 +108,7 @@ class Adjustment extends AbstractEntity
         $response      = $service->request('subscriptions/' . (int)$subscriptionId . '/adjustments', 'POST', $rawData);
         $responseArray = $this->getResponseArray($response);
 
-        if (!$this->isError() && '201' == $response->getStatus()) {
+        if (!$this->isError() && '201' == $response->getStatusCode()) {
             $this->_data = $responseArray['adjustment'];
         } else {
             $this->_data = array();
