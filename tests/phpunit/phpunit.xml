@@ -21,4 +21,9 @@
             <file>lib/Crucial/Service/ChargifyTest.php</file>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../../src</directory>
+        </whitelist>
+    </filter>
 </phpunit>
