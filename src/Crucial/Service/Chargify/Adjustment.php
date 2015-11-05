@@ -73,7 +73,7 @@ class Adjustment extends AbstractEntity
 
     /**
      * (Optional) A string that toggles how the adjustment should be applied. If
-     * target is passed for this param, the adjustment will automatically set the
+     * `target` is passed for this param, the adjustment will automatically set the
      * subscription's balance to the amount. If left blank, the amount will be
      * added to the current balance.
      *
@@ -108,7 +108,7 @@ class Adjustment extends AbstractEntity
         $response      = $service->request('subscriptions/' . (int)$subscriptionId . '/adjustments', 'POST', $rawData);
         $responseArray = $this->getResponseArray($response);
 
-        if (!$this->isError() && '201' == $response->getStatus()) {
+        if (!$this->isError() && '201' == $response->getStatusCode()) {
             $this->_data = $responseArray['adjustment'];
         } else {
             $this->_data = array();
