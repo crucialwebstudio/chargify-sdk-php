@@ -1,6 +1,5 @@
 <?php
-use Crucial\Service\Chargify,
-    GuzzleHttp\Subscriber\Mock;
+use GuzzleHttp\Subscriber\Mock;
 
 
 /**
@@ -13,11 +12,7 @@ class Crucial_Service_Chargify_CustomerTest extends PHPUnit_Framework_TestCase
 
     public function testReadByReference()
     {
-        $chargify = new Chargify(array(
-            'hostname'   => 'fgdfsgdfsgfds',
-            'api_key'    => 'hgfdhdfghd',
-            'shared_key' => 'hgfdhgfdhg'
-        ));
+        $chargify = ClientHelper::getInstance();
 
         // set a mock response on the client
         $mock = new Mock([
@@ -34,11 +29,7 @@ class Crucial_Service_Chargify_CustomerTest extends PHPUnit_Framework_TestCase
 
     public function testReadByChargifyId()
     {
-        $chargify = new Chargify(array(
-            'hostname'   => 'fgdfsgdfsgfds',
-            'api_key'    => 'hgfdhdfghd',
-            'shared_key' => 'hgfdhgfdhg'
-        ));
+        $chargify = ClientHelper::getInstance();
 
         // set a mock response on the client
         $mock = new Mock([

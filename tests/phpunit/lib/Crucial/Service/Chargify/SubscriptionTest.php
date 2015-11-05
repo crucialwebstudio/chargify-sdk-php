@@ -1,6 +1,5 @@
 <?php
-use Crucial\Service\Chargify,
-    GuzzleHttp\Subscriber\Mock;
+use GuzzleHttp\Subscriber\Mock;
 
 
 /**
@@ -15,11 +14,7 @@ class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCa
      */
     public function testCreateSuccess()
     {
-        $chargify = new Chargify(array(
-            'hostname'   => 'fgdfsgdfsgfds',
-            'api_key'    => 'hgfdhdfghd',
-            'shared_key' => 'hgfdhgfdhg'
-        ));
+        $chargify = ClientHelper::getInstance();
 
         // set a mock response on the client
         $mock = new Mock([
@@ -74,11 +69,7 @@ class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCa
      */
     public function testNoShippingCreatesError()
     {
-        $chargify = new Chargify(array(
-            'hostname'   => 'sdfdsf',
-            'api_key'    => 'fsdfdsf',
-            'shared_key' => 'fsdfdsf'
-        ));
+        $chargify = ClientHelper::getInstance();
 
         // set a mock response on the client
         $mock = new Mock([
@@ -119,7 +110,7 @@ class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCa
         // get errors from $subscription
         $errors = $subscription->getErrors();
 
-        // check for
+        // check for error messages
         $this->assertContains('Shipping Address: cannot be blank.', $errors);
     }
 }

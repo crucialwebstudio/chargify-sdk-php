@@ -1,15 +1,10 @@
 <?php
-use Crucial\Service\Chargify;
 
 class Crucial_Service_ChargifyTest extends PHPUnit_Framework_TestCase
 {
     public function testHelperInstances()
     {
-        $chargify = new Chargify(array(
-            'hostname'   => 'fdsfs',
-            'api_key'    => 'fdsfds',
-            'shared_key' => 'fdsfds'
-        ));
+        $chargify = ClientHelper::getInstance();
 
         $adjustment = $chargify->adjustment();
         $this->assertInstanceOf('Crucial\Service\Chargify\Adjustment', $adjustment);
