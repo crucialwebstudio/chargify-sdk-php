@@ -78,7 +78,7 @@ class Coupon extends AbstractEntity
         $responseArray = $this->getResponseArray($response);
 
         // status code must be 200, otherwise the code in $this->setCode() was not found
-        if (!$this->isError() && '200' == $response->getStatus()) {
+        if (!$this->isError() && '200' == $response->getStatusCode()) {
             $this->_data = $responseArray['coupon'];
         } else {
             $this->_data = array();
