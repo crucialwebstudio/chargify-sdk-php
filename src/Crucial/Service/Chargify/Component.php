@@ -111,7 +111,11 @@ class Component extends AbstractEntity
      * more price brackets. See Product Components for an overview of how price
      * brackets work for different pricing schemes.
      *
-     * @param string $scheme
+     * @param string $scheme ; One of the following:
+     *                         - per_unit
+     *                         - volume
+     *                         - tiered
+     *                         - stairstep
      *
      * @return Component
      * @link http://docs.chargify.com/product-components
