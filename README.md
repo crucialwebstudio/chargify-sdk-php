@@ -18,7 +18,7 @@ into your project. In order to use the SDK with Composer, you must do the follow
 
         {
             "require": {
-                "chargely/chargify-sdk-php": "0.0.2"
+                "chargely/chargify-sdk-php": "0.0.4"
             }
         }
 
