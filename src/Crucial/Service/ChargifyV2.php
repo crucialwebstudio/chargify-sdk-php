@@ -15,11 +15,15 @@
  * permissions and limitations under the License.
  */
 
+
 namespace Crucial\Service;
 
-use Crucial\Service\ChargifyV2\Exception\BadMethodCallException,
+use GuzzleHttp\Client,
+    GuzzleHttp\Stream\Stream,
+    GuzzleHttp\Exception\RequestException,
     Crucial\Service\ChargifyV2\Call,
-    Crucial\Service\ChargifyV2\Direct;
+    Crucial\Service\ChargifyV2\Direct,
+    Crucial\Service\ChargifyV2\Exception\BadMethodCallException;
 
 class ChargifyV2
 {
@@ -28,49 +32,56 @@ class ChargifyV2
      *
      * @var string
      */
-    protected $_baseUrl = 'https://api.chargify.com/api/v2';
+    protected $baseUrl = 'https://api.chargify.com/api/v2';
 
     /**
      * Your api_d
      *
      * @var string
      */
-    protected $_apiId;
+    protected $apiId;
 
     /**
      * Your api password
      *
      * @var string
      */
-    protected $_apiPassword;
+    protected $apiPassword;
 
     /**
      * Secret key
      *
      * @var string
      */
-    protected $_apiSecret;
+    protected $apiSecret;
 
     /**
      * response expected from API
      *
      * @var string
      */
-    protected $_format = 'json';
+    protected $format = 'json';
 
     /**
      * Config used in constructor.
      *
      * @var array
      */
-    protected $_config;
+    protected $config;
 
     /**
-     * Http client
+     * Last response received by the client
      *
-     * @var \Zend_Http_Client
+     * @var \GuzzleHttp\Message\Response|false
      */
-    protected $_client;
+    protected $lastResponse;
+
+    /**
+     * Guzzle http client
+     *
+     * @var \GuzzleHttp\Client
+     */
+    protected $httpClient;
 
     /**
      * Initialize the service
@@ -80,30 +91,26 @@ class ChargifyV2
     public function __construct($config)
     {
         // store a copy
-        $this->_config = $config;
+        $this->config = $config;
 
         // set individual properties
-        $this->_apiId       = $config['api_id'];
-        $this->_apiPassword = $config['api_password'];
-        $this->_apiSecret   = $config['api_secret'];
+        $this->apiId       = $config['api_id'];
+        $this->apiPassword = $config['api_password'];
+        $this->apiSecret   = $config['api_secret'];
 
         // set up http client
-        $this->_client = new \Zend_Http_Client();
-
-        /**
-         * @todo should these be config options?
-         */
-        $this->_client->setConfig(
-            array(
-                'maxredirects' => 0,
-                'timeout'      => 30,
-                'keepalive'    => TRUE,
-                'useragent'    => 'chargify-sdk-php/1.0 (https://github.com/crucialwebstudio/chargify-sdk-php)'
-            )
-        );
-
-        // username, password for http authentication
-        $this->_client->setAuth($this->_apiId, $this->_apiPassword, \Zend_Http_Client::AUTH_BASIC);
+        $this->httpClient = new Client([
+            'base_url' => $this->baseUrl,
+            'defaults' => [
+                'timeout'         => 10,
+                'allow_redirects' => false,
+                'auth'            => [$this->apiId, $this->apiPassword],
+                'headers'         => [
+                    'User-Agent'   => 'chargify-sdk-php/1.0 (https://github.com/crucialwebstudio/chargify-sdk-php)',
+                    'Content-Type' => 'application/' . $this->format
+                ]
+            ]
+        ]);
     }
 
     /**
@@ -115,7 +122,7 @@ class ChargifyV2
      */
     public function getBaseUrl()
     {
-        return $this->_baseUrl;
+        return $this->baseUrl;
     }
 
     /**
@@ -125,7 +132,7 @@ class ChargifyV2
      */
     public function getApiId()
     {
-        return $this->_apiId;
+        return $this->apiId;
     }
 
     /**
@@ -137,7 +144,7 @@ class ChargifyV2
      */
     public function getApiSecret()
     {
-        return $this->_apiSecret;
+        return $this->apiSecret;
     }
 
     /**
@@ -147,17 +154,17 @@ class ChargifyV2
      */
     public function getConfig()
     {
-        return $this->_config;
+        return $this->config;
     }
 
     /**
-     * Getter for $this->_client
+     * Getter for $this->httpClient
      *
-     * @return \Zend_Http_Client
+     * @return Client
      */
-    public function getClient()
+    public function getHttpClient()
     {
-        return $this->_client;
+        return $this->httpClient;
     }
 
     /**
@@ -168,32 +175,16 @@ class ChargifyV2
      * @param string $rawData
      * @param array  $params
      *
-     * @return \Zend_Http_Response
+     * @return \GuzzleHttp\Message\Response|false Response object or false if there was no response (networking error,
+     *                                            timeout, etc.)
      */
     public function request($path, $method, $rawData = NULL, $params = array())
     {
-        $method = strtoupper($method);
-        $path   = ltrim($path, '/');
-
-        $client = $this->getClient();
-        $client->setUri($this->_baseUrl . '/' . $path . '.' . $this->_format);
-
-        // unset headers. they don't get cleared between requests
-        $client->setHeaders(
-            array(
-                'Content-Type' => NULL,
-                'Accept'       => NULL
-            )
-        );
-
-        // clear parameters
-        $client->resetParameters();
-
-        $client->setHeaders(
-            array(
-                'Content-Type' => 'application/' . $this->_format
-            )
-        );
+        $method  = strtoupper($method);
+        $path    = ltrim($path, '/');
+        $path    = '/' . $path . '.' . $this->format;
+        $client  = $this->getHttpClient();
+        $request = $client->createRequest($method, $path);
 
         // set headers if POST or PUT
         if (in_array($method, array('POST', 'PUT'))) {
@@ -201,55 +192,46 @@ class ChargifyV2
                 throw new BadMethodCallException('You must send raw data in a POST or PUT request');
             }
 
-            $client->setHeaders(
-                array(
-                    'Content-Type' => 'application/' . $this->_format
-                )
-            );
-
             if (!empty($params)) {
-                $client->setParameterGet($params);
+                $request->setQuery($params);
             }
 
-            $client->setRawData($rawData, 'application/' . $this->_format);
+            $request->setBody(Stream::factory($rawData));
         }
 
         // set headers if GET or DELETE
         if (in_array($method, array('GET', 'DELETE'))) {
-            $client->setHeaders(
-                array(
-                    'Accept' => 'application/' . $this->_format
-                )
-            );
 
             if (!empty($rawData)) {
-                $client->setRawData($rawData, 'application/' . $this->_format);
+                $request->setBody(Stream::factory($rawData));
             }
 
             if (!empty($params)) {
-                foreach ($params as $k => $v) {
-                    /**
-                     * test for array and adjust URI accordingly
-                     * this is needed for ?kinds[]=charge&kinds[]=info since \Zend_Http_Client
-                     * doesn't handle this well with setParameterGet()
-                     */
-                    if (is_array($v)) {
-                        $uri = '?';
-                        foreach ($v as $value) {
-                            $uri .= $k . '[]=' . $value . '&';
-                        }
-                        $uri = $client->getUri(TRUE) . trim($uri, '&');
-                        $client->setUri($uri);
-                    } else {
-                        $client->setParameterGet($k, $v);
-                    }
-                }
+                $request->setQuery($params);
             }
         }
 
-        $response = $client->request($method);
+        try {
+            $response = $client->send($request);
+        } catch (RequestException $e) {
+            if ($e->hasResponse()) {
+                $response = $e->getResponse();
+            } else {
+                $response = false;
+            }
+        }
+
+        $this->lastResponse = $response;
 
         return $response;
+    }
+
+    /**
+     * @return \GuzzleHttp\Message\Response|false
+     */
+    public function getLastResponse()
+    {
+        return $this->lastResponse;
     }
 
     /**
