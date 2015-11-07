@@ -8,9 +8,6 @@ use GuzzleHttp\Subscriber\Mock;
  */
 class Crucial_Service_Chargify_ComponentTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @todo assert http response code
-     */
     public function testCreateMeteredStairstepSuccess()
     {
         $chargify = ClientHelper::getInstance();
@@ -40,20 +37,20 @@ class Crucial_Service_Chargify_ComponentTest extends PHPUnit_Framework_TestCase
             ))
             ->createComponent(1234, 'metered_components');
 
+        $response = $component->getService()->getLastResponse();
+
         // check there wasn't an error
         $this->assertFalse($component->isError(), '$component has an error');
+        $this->assertEquals(201, $response->getStatusCode(), 'Expected status code 201');
 
         // check for a couple of attributes on the $adjustment object
         $this->assertNotEmpty($component['id'], '$component["id"] was empty');
         $this->assertEquals($component['name'], 'Text Messages', '$component["name"] mismatch');
     }
 
-    /**
-     * @todo assert http response code
-     */
     public function testCreateMeteredStairstepError()
     {
-        $chargify = ClientHelper::getInstance('dev');
+        $chargify = ClientHelper::getInstance();
 
         // set a mock response on the client
         $mock = new Mock([
@@ -68,8 +65,11 @@ class Crucial_Service_Chargify_ComponentTest extends PHPUnit_Framework_TestCase
             ->setPricingScheme('stairstep')
             ->createComponent(1234, 'metered_components');
 
+        $response = $component->getService()->getLastResponse();
+
         // $component object should indicate an error
         $this->assertTrue($component->isError(), '$adjustment was not en error');
+        $this->assertEquals(422, $response->getStatusCode(), 'Expected status code 422');
 
         // get errors from $adjustment
         $errors = $component->getErrors();

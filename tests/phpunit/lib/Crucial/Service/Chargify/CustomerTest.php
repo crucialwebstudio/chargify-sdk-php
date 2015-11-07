@@ -5,7 +5,6 @@ use GuzzleHttp\Subscriber\Mock;
 /**
  * Class Crucial_Service_Chargify_CustomerTest
  *
- * @todo use Guzzle service builder for creating guzzle clients
  */
 class Crucial_Service_Chargify_CustomerTest extends PHPUnit_Framework_TestCase
 {
@@ -24,7 +23,10 @@ class Crucial_Service_Chargify_CustomerTest extends PHPUnit_Framework_TestCase
             ->setReference(123456)
             ->readByReference();
 
+        $response = $customer->getService()->getLastResponse();
+
         $this->assertFalse($customer->isError(), '$customer has an error');
+        $this->assertEquals(200, $response->getStatusCode(), 'Expected status code 200');
     }
 
     public function testReadByChargifyId()
@@ -38,8 +40,11 @@ class Crucial_Service_Chargify_CustomerTest extends PHPUnit_Framework_TestCase
         $chargify->getHttpClient()->getEmitter()->attach($mock);
 
         $customer = $chargify->customer()
-            ->readByChargifyId(8003316);
+            ->readByChargifyId(12345);
+
+        $response = $customer->getService()->getLastResponse();
 
         $this->assertFalse($customer->isError(), '$customer has an error');
+        $this->assertEquals(200, $response->getStatusCode(), 'Expected status code 200');
     }
 }

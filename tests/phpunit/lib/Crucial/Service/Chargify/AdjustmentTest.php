@@ -8,9 +8,6 @@ use GuzzleHttp\Subscriber\Mock;
  */
 class Crucial_Service_Chargify_AdjustmentTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @todo assert http response code
-     */
     public function testCreateSuccess()
     {
         $chargify = ClientHelper::getInstance();
@@ -27,8 +24,11 @@ class Crucial_Service_Chargify_AdjustmentTest extends PHPUnit_Framework_TestCase
             ->setAdjustmentMethod('target')
             ->create(123);
 
+        $response = $adjustment->getService()->getLastResponse();
+
         // check there wasn't an error
         $this->assertFalse($adjustment->isError(), '$adjustment has an error');
+        $this->assertEquals(201, $response->getStatusCode(), 'Expected status code 201');
 
         // check for a couple of attributes on the $adjustment object
         $this->assertNotEmpty($adjustment['id'], '$adjustment["id"] was empty');
@@ -37,10 +37,6 @@ class Crucial_Service_Chargify_AdjustmentTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Test Memo', $adjustment['memo'], '$adjustment["memo"] mismatch');
     }
 
-
-    /**
-     * @todo assert http response code
-     */
     public function testNoAmountCreatesError()
     {
         $chargify = ClientHelper::getInstance();
@@ -54,8 +50,11 @@ class Crucial_Service_Chargify_AdjustmentTest extends PHPUnit_Framework_TestCase
         $adjustment = $chargify->adjustment()
             ->create(123);
 
+        $response = $adjustment->getService()->getLastResponse();
+
         // $adjustment object should indicate an error
         $this->assertTrue($adjustment->isError(), '$adjustment was not en error');
+        $this->assertEquals(422, $response->getStatusCode(), 'Expected status code 422');
 
         // get errors from $adjustment
         $errors = $adjustment->getErrors();
