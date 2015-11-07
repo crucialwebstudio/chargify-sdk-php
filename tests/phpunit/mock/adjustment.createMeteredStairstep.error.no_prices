@@ -1,0 +1,18 @@
+HTTP/1.1 422 status code 422
+Cache-Control: no-cache
+Content-Type: application/json; charset=utf-8
+Date: Sat, 07 Nov 2015 00:39:45 GMT
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Set-Cookie: removed
+Status: 422 Unprocessable Entity
+X-Frame-Options: SAMEORIGIN
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: invalidate, pass
+X-Request-Id: removed
+X-Runtime: 0.037535
+X-Ua-Compatible: IE=Edge,chrome=1
+Content-Length: 107
+Connection: keep-alive
+
+{"errors":["Name: must be unique - that value has been taken.","At least 1 price bracket must be defined"]}

@@ -6,3 +6,6 @@
 
 vendor/
 composer.lock
+
+tests/phpunit/artifacts/
+tests/phpunit/configs/ClientConfig.Dev.php

@@ -1,0 +1,23 @@
+HTTP/1.1 201 Created
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+Date: Sat, 07 Nov 2015 00:23:37 GMT
+Etag: "b2a65df03bef12440cc553474c372649"
+Location: /product_families/353117/metered_components/135540
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Set-Cookie: removed
+Status: 201 Created
+Strict-Transport-Security: max-age=31536000
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: invalidate, pass
+X-Request-Id: removed
+X-Runtime: 1.933575
+X-Ua-Compatible: IE=Edge,chrome=1
+X-Xss-Protection: 1; mode=block
+Content-Length: 401
+Connection: keep-alive
+
+{"component":{"id":135540,"name":"Text Messages","pricing_scheme":"stairstep","unit_name":"message","unit_price":null,"product_family_id":353117,"price_per_unit_in_cents":null,"kind":"metered_component","archived":false,"taxable":false,"description":null,"prices":[{"starting_quantity":1,"ending_quantity":100,"unit_price":"1.0"},{"starting_quantity":101,"ending_quantity":1000,"unit_price":"10.0"}]}}

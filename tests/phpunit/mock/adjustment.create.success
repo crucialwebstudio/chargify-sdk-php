@@ -1,0 +1,22 @@
+HTTP/1.1 201 Created
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+Date: Thu, 05 Nov 2015 02:38:35 GMT
+Etag: "8cbdf1a2b3d3d9e0003ddbe9eb80526a"
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Set-Cookie: removed
+Status: 201 Created
+Strict-Transport-Security: max-age=31536000
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: invalidate, pass
+X-Request-Id: removed
+X-Runtime: 0.176168
+X-Ua-Compatible: IE=Edge,chrome=1
+X-Xss-Protection: 1; mode=block
+Content-Length: 473
+Connection: keep-alive
+
+{"adjustment":{"id":112625777,"subscription_id":8161371,"type":"Adjustment","kind":null,"transaction_type":"adjustment","success":true,"amount_in_cents":1099,"memo":"Test Memo","created_at":"2015-11-04T20:38:34-06:00","starting_balance_in_cents":0,"ending_balance_in_cents":1099,"gateway_used":null,"gateway_transaction_id":null,"gateway_order_id":null,"payment_id":null,"product_id":3325662,"tax_id":null,"component_id":null,"statement_id":59942108,"customer_id":8003316}}

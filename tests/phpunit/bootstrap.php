@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/helpers/ClientHelper.php';
 require_once __DIR__ . '/helpers/MockResponse.php';
 
 define('ROOT_DIR', dirname(dirname(__DIR__)));

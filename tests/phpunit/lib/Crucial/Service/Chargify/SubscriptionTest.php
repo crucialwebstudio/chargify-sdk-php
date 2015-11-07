@@ -1,25 +1,16 @@
 <?php
-use Crucial\Service\Chargify,
-    GuzzleHttp\Subscriber\Mock;
+use GuzzleHttp\Subscriber\Mock;
 
 
 /**
  * Class Crucial_Service_Chargify_SubscriptionTest
  *
- * @todo use Guzzle service builder for creating guzzle clients
  */
 class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @todo assert http response code
-     */
     public function testCreateSuccess()
     {
-        $chargify = new Chargify(array(
-            'hostname'   => 'fgdfsgdfsgfds',
-            'api_key'    => 'hgfdhdfghd',
-            'shared_key' => 'hgfdhgfdhg'
-        ));
+        $chargify = ClientHelper::getInstance();
 
         // set a mock response on the client
         $mock = new Mock([
@@ -60,25 +51,20 @@ class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCa
             ))
             ->create();
 
+        $response = $subscription->getService()->getLastResponse();
+
         // check there wasn't an error
         $this->assertFalse($subscription->isError(), '$subscription has an error');
+        $this->assertEquals(201, $response->getStatusCode(), 'Expected status code 201');
 
         // check for a couple of attributes on the $subscription object
         $this->assertNotEmpty($subscription['id'], '$subscription["id"] was empty');
         $this->assertEquals('darryl@mailinator.com', $subscription['customer']['email'], '$subscription["customer"]["email"] did not match what was given in request');
     }
 
-
-    /**
-     * @todo assert http response code
-     */
     public function testNoShippingCreatesError()
     {
-        $chargify = new Chargify(array(
-            'hostname'   => 'sdfdsf',
-            'api_key'    => 'fsdfdsf',
-            'shared_key' => 'fsdfdsf'
-        ));
+        $chargify = ClientHelper::getInstance();
 
         // set a mock response on the client
         $mock = new Mock([
@@ -113,13 +99,16 @@ class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCa
             ))
             ->create();
 
+        $response = $subscription->getService()->getLastResponse();
+
         // $subscription object should be in an error state
         $this->assertTrue($subscription->isError());
+        $this->assertEquals(422, $response->getStatusCode(), 'Expected status code 422');
 
         // get errors from $subscription
         $errors = $subscription->getErrors();
 
-        // check for
+        // check for error messages
         $this->assertContains('Shipping Address: cannot be blank.', $errors);
     }
 }

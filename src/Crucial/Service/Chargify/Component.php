@@ -111,7 +111,11 @@ class Component extends AbstractEntity
      * more price brackets. See Product Components for an overview of how price
      * brackets work for different pricing schemes.
      *
-     * @param string $scheme
+     * @param string $scheme ; One of the following:
+     *                         - per_unit
+     *                         - volume
+     *                         - tiered
+     *                         - stairstep
      *
      * @return Component
      * @link http://docs.chargify.com/product-components
@@ -361,7 +365,7 @@ class Component extends AbstractEntity
 
         $responseArray = $this->getResponseArray($response);
 
-        if (!$this->isError() && '201' == $response->getStatus()) {
+        if (!$this->isError() && '201' == $response->getStatusCode()) {
             $this->_data = $responseArray['component'];
         } else {
             $this->_data = array();

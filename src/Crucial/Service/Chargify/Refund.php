@@ -107,7 +107,7 @@ class Refund extends AbstractEntity
         $response      = $service->request('subscriptions/' . (int)$subscriptionId . '/refunds', 'POST', $rawData);
         $responseArray = $this->getResponseArray($response);
 
-        if (!$this->isError() && '201' == $response->getStatus()) {
+        if (!$this->isError() && '201' == $response->getStatusCode()) {
             $this->_data = $responseArray['refund'];
         } else {
             $this->_data = array();

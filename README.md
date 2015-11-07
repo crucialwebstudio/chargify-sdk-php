@@ -83,3 +83,11 @@ into your project. In order to use the SDK with Composer, you must do the follow
         echo "Subscription ID: " . $subscription['id'] . PHP_EOL;
         echo "Customer Email: " . $subscription['customer']['email'] . PHP_EOL;
     }
+    
+# Running tests
+
+    cd tests/phpunit
+    ../../vendor/bin/phpunit
+    
+    # with coverage report
+    ../../vendor/bin/phpunit --coverage-html artifacts/coverage
