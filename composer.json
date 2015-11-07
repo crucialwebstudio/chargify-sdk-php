@@ -4,6 +4,8 @@
     "description": "Chargify SDK for PHP - Use the Chargify API in your PHP project",
     "keywords": [
         "chargify",
+        "chargify direct",
+        "chargify v2",
         "billing portal",
         "api",
         "sdk",
