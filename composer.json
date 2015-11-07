@@ -24,7 +24,7 @@
         "issues": "https://github.com/chargely/chargify-sdk-php/issues"
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4.0",
         "guzzlehttp/guzzle": "5.2.0"
     },
     "require-dev": {
