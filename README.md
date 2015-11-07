@@ -1,5 +1,7 @@
 # Chargify SDK for PHP
 
+[![Build Status](https://travis-ci.org/chargely/chargify-sdk-php.svg?branch=master)](https://travis-ci.org/chargely/chargify-sdk-php)
+
 This library helps you interact with the Chargify API using PHP. It has been used in production for many years by our 
 flagship product, [Chargley, a billing portal for Chargify](http://www.getchargely.com).
 
