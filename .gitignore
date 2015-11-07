@@ -9,3 +9,4 @@ composer.lock
 
 tests/phpunit/artifacts/
 tests/phpunit/configs/ClientConfig.Dev.php
+tests/phpunit/configs/ClientV2Config.Dev.php
