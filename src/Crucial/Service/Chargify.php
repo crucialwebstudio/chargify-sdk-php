@@ -152,11 +152,10 @@ class Chargify
      */
     public function request($path, $method, $rawData = NULL, $params = array())
     {
-        $method = strtoupper($method);
-        $path   = ltrim($path, '/');
-
-        $client  = $this->getHttpClient();
+        $method  = strtoupper($method);
+        $path    = ltrim($path, '/');
         $path    = '/' . $path . '.' . $this->_format;
+        $client  = $this->getHttpClient();
         $request = $client->createRequest($method, $path);
 
         // set headers if POST or PUT
@@ -181,24 +180,6 @@ class Chargify
 
             if (!empty($params)) {
                 $request->setQuery($params);
-
-//                foreach ($params as $k => $v) {
-//                    /**
-//                     * test for array and adjust URI accordingly
-//                     * this is needed for ?kinds[]=charge&kinds[]=info since \Zend_Http_Client
-//                     * doesn't handle this well with setParameterGet()
-//                     */
-//                    if (is_array($v)) {
-//                        $uri = '?';
-//                        foreach ($v as $value) {
-//                            $uri .= $k . '[]=' . $value . '&';
-//                        }
-//                        $uri = $client->getUri(TRUE) . trim($uri, '&');
-//                        $client->setUri($uri);
-//                    } else {
-//                        $client->setParameterGet($k, $v);
-//                    }
-//                }
             }
         }
 
