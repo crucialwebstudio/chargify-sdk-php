@@ -33,7 +33,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $errors = array();
 
     /**
      * Data container for providing ArrayAccess on this object
@@ -107,7 +107,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
-     * Assmbles an object from given array
+     * Assembles an object from given array
      *
      * @param array $array
      *
@@ -146,7 +146,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      */
     public function isError()
     {
-        return !empty($this->_errors);
+        return !empty($this->errors);
     }
 
     /**
@@ -157,35 +157,50 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      */
     public function getErrors()
     {
-        return $this->_errors;
+        return $this->errors;
     }
 
     /**
      * Transfoms the response body (json) into an array we can more easily
      * work with.
      *
-     * @param \Zend_Http_Response $response
+     * @param \GuzzleHttp\Message\Response|false $response
      *
      * @return array
-     * @todo $this->_errors is populated with errors from Chargify. Should this
-     *  also populate a separate errors array when we get HTTP 404s or 201s?
      */
-    public function getResponseArray(\Zend_Http_Response $response)
+    public function getResponseArray($response)
     {
-        $return = array();
-        $body   = $response->getBody();
-        $body   = trim($body);
+        $return = [];
 
-        /**
-         * return early on bad status codes
-         */
-        $code       = $response->getStatus();
-        $errorCodes = array(404, 401, 500);
-        if (in_array($code, $errorCodes)) {
-            $this->_errors['Crucial_Service_Chargify']['Bad status code'] = $code;
+        if (!($response instanceof \GuzzleHttp\Message\Response)) {
+            $this->errors[] = [
+                // this error is coming from us, not the Chargify API response
+                'source'    => 'client',
+                'attribute' => null,
+                'kind'      => 'networking',
+                'message'   => 'no response'
+            ];
 
             return $return;
         }
+
+        /**
+         * add error for bad status codes
+         */
+        $code       = $response->getStatusCode();
+        $errorCodes = [404, 401, 500];
+        if (in_array($code, $errorCodes)) {
+            $this->errors[] = [
+                // this error is coming from us, not the Chargify API response
+                'source'    => 'client',
+                'attribute' => null,
+                'kind'      => 'status_code',
+                'message'   => 'Bad status code: ' . $code
+            ];
+        }
+
+        $body = $response->getBody();
+        $body = trim((string)$body);
 
         /**
          * Return early if we have an empty body, which we can't turn into an array
@@ -196,12 +211,19 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
             return $return;
         }
 
-        $return = json_decode($body);
+        $return = json_decode($body, true);
 
         // set errors, if any
-        if (!empty($return['errors'])) {
-            $this->_errors = $return['errors'];
+        if (!empty($return['result']['errors'])) {
+            foreach ($return['result']['errors'] as $error) {
+                $this->errors[] = $error;
+            }
         }
+
+        /**
+         * NOTE: There is also, maybe, an errors array nested in $return['meta']['errors']
+         *       Why is this API so inconsistent???!!!!!
+         */
 
         return $return;
     }
