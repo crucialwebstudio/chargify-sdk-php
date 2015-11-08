@@ -33,7 +33,7 @@ class Crucial_Service_ChargifyV2_CallTest extends PHPUnit_Framework_TestCase
     {
         $mockFile = 'v2.call.read.error.not_found';
 
-        $chargify = ClientV2Helper::getInstance('dev');
+        $chargify = ClientV2Helper::getInstance();
 
         // set a mock response on the client
         $mock = new Mock([
