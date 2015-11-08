@@ -28,11 +28,11 @@ use GuzzleHttp\Client,
 class ChargifyV2
 {
     /**
-     * The base URL for all api calls. NO TRAILING SLASH!
+     * The base URL for all api calls
      *
      * @var string
      */
-    protected $baseUrl = 'https://api.chargify.com/api/v2';
+    protected $baseUrl = 'https://api.chargify.com/api/v2/';
 
     /**
      * Your api_d
@@ -54,13 +54,6 @@ class ChargifyV2
      * @var string
      */
     protected $apiSecret;
-
-    /**
-     * response expected from API
-     *
-     * @var string
-     */
-    protected $format = 'json';
 
     /**
      * Config used in constructor.
@@ -106,8 +99,8 @@ class ChargifyV2
                 'allow_redirects' => false,
                 'auth'            => [$this->apiId, $this->apiPassword],
                 'headers'         => [
-                    'User-Agent'   => 'chargify-sdk-php/1.0 (https://github.com/crucialwebstudio/chargify-sdk-php)',
-                    'Content-Type' => 'application/' . $this->format
+                    'User-Agent' => 'chargify-sdk-php/1.0 (https://github.com/chargely/chargify-sdk-php)',
+                    'Accept'     => 'application/json'
                 ]
             ]
         ]);
@@ -148,6 +141,18 @@ class ChargifyV2
     }
 
     /**
+     * Getter for api password.
+     *
+     * Be careful not to expose this to anyone, especially in your html.
+     *
+     * @return string
+     */
+    public function getApiPassword()
+    {
+        return $this->apiPassword;
+    }
+
+    /**
      * Returns config sent in constructor
      *
      * @return array
@@ -182,7 +187,6 @@ class ChargifyV2
     {
         $method  = strtoupper($method);
         $path    = ltrim($path, '/');
-        $path    = '/' . $path . '.' . $this->format;
         $client  = $this->getHttpClient();
         $request = $client->createRequest($method, $path);
 
