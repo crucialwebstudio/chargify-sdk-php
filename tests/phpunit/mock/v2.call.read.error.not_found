@@ -1,0 +1,16 @@
+HTTP/1.1 404 Not Found
+Cache-Control: no-cache, private
+Content-Type: application/json; charset=utf-8
+Date: Sat, 07 Nov 2015 22:09:43 GMT
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Status: 404 Not Found
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: miss
+X-Request-Id: removed
+X-Runtime: 0.031821
+X-Ua-Compatible: IE=Edge,chrome=1
+Content-Length: 221
+Connection: keep-alive
+
+{"result":{"errors":[{"attribute":null,"kind":"not_found","message":"The requested Call could not be found."}]},"meta":{"errors":[{"attribute":null,"kind":"not_found","message":"The requested Call could not be found."}]}}
