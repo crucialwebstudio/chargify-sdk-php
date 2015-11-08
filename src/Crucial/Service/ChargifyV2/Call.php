@@ -34,10 +34,10 @@ class Call extends AbstractEntity
         $responseArray = $this->getResponseArray($response);
 
         // a 404 will be returned if not found, so make sure we have a 200
-        if (!$this->isError() && '200' == $response->getStatus()) {
+        if (!$this->isError() && '200' == $response->getStatusCode()) {
             $this->_data = $responseArray['call'];
         } else {
-            $this->_data = array();
+            $this->_data = $responseArray;
         }
 
         return $this;
