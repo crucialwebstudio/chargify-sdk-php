@@ -17,7 +17,9 @@
 
 namespace Crucial\Service\ChargifyV2;
 
-use Crucial\Service\ChargifyV2;
+use Crucial\Service\ChargifyV2,
+    Crucial\Service\ChargifyV2\Direct\Utility\AuthRequest,
+    Crucial\Service\ChargifyV2\Exception\BadMethodCallException;
 
 class Direct
 {
@@ -26,7 +28,7 @@ class Direct
      *
      * @var ChargifyV2
      */
-    protected $_service;
+    protected $service;
 
     /**
      * Unix timestamp
@@ -35,7 +37,7 @@ class Direct
      *
      * @var int
      */
-    protected $_timeStamp;
+    protected $timeStamp;
 
     /**
      * 40 character nonce
@@ -44,7 +46,7 @@ class Direct
      *
      * @var string
      */
-    protected $_nonce;
+    protected $nonce;
 
     /**
      * Array of tamper-proof data to send to Chargify
@@ -53,7 +55,7 @@ class Direct
      *
      * @var array
      */
-    protected $_data = array();
+    protected $data = array();
 
     /**
      * The hash_hmac() signature of the request
@@ -62,14 +64,19 @@ class Direct
      *
      * @var string
      */
-    protected $_requestSignature;
+    protected $requestSignature;
 
     /**
      * The URL to redirect to after submission
      *
      * @var string
      */
-    protected $_redirect;
+    protected $redirect;
+
+    /**
+     * @var AuthRequest
+     */
+    protected $authTestUtility;
 
     /**
      * Simply stores service instance
@@ -78,7 +85,16 @@ class Direct
      */
     public function __construct(ChargifyV2 $service)
     {
-        $this->_service = $service;
+        $this->service        = $service;
+        $this->authTestUtility = new AuthRequest($this);
+    }
+
+    /**
+     * @return AuthRequest
+     */
+    public function getAuthTestUtility()
+    {
+        return $this->authTestUtility;
     }
 
     /**
@@ -88,7 +104,7 @@ class Direct
      */
     public function getService()
     {
-        return $this->_service;
+        return $this->service;
     }
 
     /**
@@ -112,28 +128,28 @@ class Direct
          * Since we base our signature off of the secure[data] parameter it cannot
          * be changed once the signature has been generated.
          */
-        if (isset($this->_requestSignature)) {
-            throw new Crucial_Service_ChargifyV2_Exception('The signature for this request has already been generated.');
+        if (isset($this->requestSignature)) {
+            throw new BadMethodCallException('The signature for this request has already been generated.');
         }
 
-        $this->_data = $data;
-        $this->_mergeRedirect();
+        $this->data = $data;
+        $this->mergeRedirect();
     }
 
     /**
-     * Getter for $this->_data
+     * Getter for $this->data
      *
      * @return array
      */
     public function getData()
     {
-        return $this->_data;
+        return $this->data;
     }
 
     /**
      * Get string value to send in secure[data]
      *
-     * This is the query string equivalent of $this->_data; generated with
+     * This is the query string equivalent of $this->data; generated with
      * http_build_query()
      *
      * @return string
@@ -141,7 +157,7 @@ class Direct
     public function getDataString()
     {
         // percent encoded
-        $string = http_build_query($this->_data);
+        $string = http_build_query($this->data);
         $string = str_replace(array('%5B', '%5D'), array('[', ']'), $string);
 
         return $string;
@@ -155,7 +171,7 @@ class Direct
     public function getDataStringEncoded()
     {
         // percent encoded
-        $string = http_build_query($this->_data, '', '&amp;');
+        $string = http_build_query($this->data, '', '&amp;');
         $string = str_replace(array('%5B', '%5D'), array('[', ']'), $string);
 
         return $string;
@@ -173,24 +189,24 @@ class Direct
          * base our signature off of this it cannot be changed once the signature
          * has been generated.
          */
-        if (isset($this->_requestSignature)) {
-            throw new Crucial_Service_ChargifyV2_Exception('The signature for this request has already been generated.');
+        if (isset($this->requestSignature)) {
+            throw new BadMethodCallException('The signature for this request has already been generated.');
         }
 
-        $this->_redirect = $redirect;
-        $this->_mergeRedirect();
+        $this->redirect = $redirect;
+        $this->mergeRedirect();
     }
 
     /**
      * The redirect_uri must be sent with secure[data], so we merge it in with
-     * $this->_data
+     * $this->data
      *
      * @return void
      */
-    protected function _mergeRedirect()
+    protected function mergeRedirect()
     {
-        if (!empty($this->_redirect)) {
-            $this->_data = array_merge_recursive($this->_data, array('redirect_uri' => $this->_redirect));
+        if (!empty($this->redirect)) {
+            $this->data = array_merge_recursive($this->data, array('redirect_uri' => $this->redirect));
         }
     }
 
@@ -201,7 +217,7 @@ class Direct
      */
     public function getRedirect()
     {
-        return $this->_redirect;
+        return $this->redirect;
     }
 
     /**
@@ -211,11 +227,11 @@ class Direct
      */
     public function getTimeStamp()
     {
-        if (empty($this->_timeStamp)) {
-            $this->_timeStamp = time();
+        if (empty($this->timeStamp)) {
+            $this->timeStamp = time();
         }
 
-        return $this->_timeStamp;
+        return $this->timeStamp;
     }
 
     /**
@@ -228,7 +244,7 @@ class Direct
      */
     public function getNonce()
     {
-        if (empty($this->_nonce)) {
+        if (empty($this->nonce)) {
             // generate a random string
             $bits   = 256;
             $bytes  = ceil($bits / 8);
@@ -237,10 +253,10 @@ class Direct
                 $string .= chr(mt_rand(0, 255));
             }
             // sha1 hash
-            $this->_nonce = hash('sha1', $string);
+            $this->nonce = hash('sha1', $string);
         }
 
-        return $this->_nonce;
+        return $this->nonce;
     }
 
     /**
@@ -252,15 +268,15 @@ class Direct
      */
     public function getRequestSignature()
     {
-        if (empty($this->_requestSignature)) {
+        if (empty($this->requestSignature)) {
             $string                  = $this->getApiId()
                 . $this->getTimeStamp()
                 . $this->getNonce()
                 . $this->getDataString();
-            $this->_requestSignature = hash_hmac('sha1', $string, $this->getService()->getApiSecret());
+            $this->requestSignature = hash_hmac('sha1', $string, $this->getService()->getApiSecret());
         }
 
-        return $this->_requestSignature;
+        return $this->requestSignature;
     }
 
     /**
@@ -306,7 +322,7 @@ class Direct
      */
     public function getSignupAction()
     {
-        return $this->getService()->getBaseUrl() . '/signups';
+        return trim($this->getService()->getBaseUrl(), '/') . '/signups';
     }
 
     /**
@@ -342,46 +358,11 @@ class Direct
      *
      * @return boolean
      */
-    public function authTest()
+    public function checkAuth()
     {
         // set a fake redirect URL. Chargify will 500 on us if we don't have a redirect URL
-        $this->setRedirect('https://foo.com');
+        $this->setRedirect('http://localhost');
 
-        $postParams = array(
-            'secure' => array(
-                'api_id'    => $this->getApiId(),
-                'timestamp' => $this->getTimeStamp(),
-                'nonce'     => $this->getNonce(),
-                'signature' => $this->getRequestSignature(),
-                'data'      => $this->getDataStringEncoded()
-            )
-        );
-
-        $client = $this->getService()->getClient();
-        $client->setUri($this->getSignupAction());
-        $client->setParameterPost($postParams);
-
-        $response = $client->request(\Zend_Http_Client::POST);
-
-        $body = trim($response->getBody());
-
-        $location = $response->getHeader('Location');
-
-        // if Chargify does not redirect return array of debug info
-        if (empty($location)) {
-            return FALSE;
-        }
-
-        /**
-         * Currently Chargify does not redirect at all if your credentials are wrong.
-         * It feels kind of wrong to simplly return TRUE based on that but that's the
-         * best test we have right now.
-         *
-         * Possible other triggers:
-         *
-         * $body == 'Incorrect signature'
-         */
-
-        return TRUE;
+        return $this->authTestUtility->test();
     }
 }
