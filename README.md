@@ -6,7 +6,7 @@
 [![License](https://poser.pugx.org/chargely/chargify-sdk-php/license)](https://packagist.org/packages/chargely/chargify-sdk-php)
 
 This library helps you interact with the Chargify API using PHP. It has been used in production for many years by our 
-flagship product, [Chargley, a billing portal for Chargify](http://www.getchargely.com).
+flagship product, [Chargley, a billing portal for Chargify](http://www.chargely.com).
 
 # Installation
 
@@ -14,11 +14,11 @@ Using [Composer](https://getcomposer.org/) is the recommended way to install the
 dependency management tool for PHP that allows you to declare the dependencies your project needs and installs them 
 into your project. In order to use the SDK with Composer, you must do the following:
 
-1. Add "crucialwebstudio/chargify-sdk-php" as a dependency in your project's composer.json file.
+1. Add "chargely/chargify-sdk-php" as a dependency in your project's composer.json file.
 
         {
             "require": {
-                "chargely/chargify-sdk-php": "0.0.4"
+                "chargely/chargify-sdk-php": "0.0.5"
             }
         }
 
@@ -34,7 +34,47 @@ into your project. In order to use the SDK with Composer, you must do the follow
 
         require '/path/to/vendor/autoload.php';
 
-# Usage
+# Chargify Direct Usage
+
+## Create a signup form [Docs](https://docs.chargify.com/chargify-direct-signups)
+
+    <?php
+    require '/path/to/vendor/autoload.php';
+    
+    use Crucial\Service\ChargifyV2;
+
+    $chargifyV2 = new ChargifyV2([
+        'api_id'       => 'gfdjgjfdklsjgsl',
+        'api_password' => 'mdnmkfvmx',
+        'api_secret'   => 'jdksljfklds;a'
+    ]);
+    $direct = $chargifyV2->direct();
+    
+    // set redirect
+    $direct->setRedirect('http://example.local');
+    
+    // set tamper-proof data
+    $direct->setData([
+        'signup' => [
+            'product'  => [
+                'id' => 1234
+            ],
+            'customer' => [
+                'first_name' => 'Dan',
+                'last_name'  => 'Bowen',
+                'email'      => 'foo@mailinator.com'
+            ]
+        ]
+    ]);
+    ?>
+    
+    <form accept-charset="utf-8" method="post" action="<?php echo $direct->getSignupAction() ?>">
+        <?php echo $direct->getHiddenFields(); ?>
+        
+        ....
+    </form>
+
+# API Usage
 
 ## Create a client instance
 
@@ -42,17 +82,17 @@ into your project. In order to use the SDK with Composer, you must do the follow
     
     use Crucial\Service\Chargify;
     
-    $chargify = new Chargify(array(
+    $chargify = new Chargify([
         'hostname'   => 'yoursubdomain.chargify.com',
         'api_key'    => '{{API_KEY}}',
         'shared_key' => '{{SHARED_KEY}}'
-    ));
+    ]);
     
 ## Create a subscription [Docs](https://docs.chargify.com/api-customers)
 
     $subscription = $chargify->subscription()
         ->setProductId(123)
-        ->setCustomerAttributes(array(
+        ->setCustomerAttributes([
             'first_name'   => '{{FIRST_NAME}}',
             'last_name'    => '{{LAST_NAME}}',
             'email'        => '{{EMAIL}}',
@@ -64,8 +104,8 @@ into your project. In order to use the SDK with Composer, you must do the follow
             'state'        => '{{STATE}}',
             'zip'          => '{{ZIP}}',
             'country'      => '{{COUNTRY}}',
-        ))
-        ->setPaymentProfileAttributes(array(
+        ])
+        ->setPaymentProfileAttributes([
             'first_name'       => '{{FIRST_NAME}}',
             'last_name'        => '{{LAST_NAME}}',
             'full_number'      => '{{CC_NUMBER}}',
@@ -77,7 +117,7 @@ into your project. In order to use the SDK with Composer, you must do the follow
             'billing_state'    => '{{STATE}}',
             'billing_zip'      => '{{ZIP}}',
             'billing_country'  => '{{COUNTRY}}'
-        ))
+        ])
         ->create();
         
     // check for an error
