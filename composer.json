@@ -4,6 +4,8 @@
     "description": "Chargify SDK for PHP - Use the Chargify API in your PHP project",
     "keywords": [
         "chargify",
+        "chargify direct",
+        "chargify v2",
         "billing portal",
         "api",
         "sdk",
@@ -22,7 +24,7 @@
         "issues": "https://github.com/chargely/chargify-sdk-php/issues"
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4.0",
         "guzzlehttp/guzzle": "5.2.0"
     },
     "require-dev": {

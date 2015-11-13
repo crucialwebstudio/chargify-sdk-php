@@ -1,0 +1,20 @@
+HTTP/1.1 200 OK
+Cache-Control: must-revalidate, private, max-age=0
+Content-Type: application/json; charset=utf-8
+Date: Sat, 07 Nov 2015 18:55:39 GMT
+Etag: "9b36778d24e18604b3f772d43dccb644"
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Status: 200 OK
+Strict-Transport-Security: max-age=31536000
+X-Content-Type-Options: nosniff
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: miss
+X-Request-Id: removed
+X-Runtime: 0.028909
+X-Ua-Compatible: IE=Edge,chrome=1
+X-Xss-Protection: 1; mode=block
+Content-Length: 1883
+Connection: keep-alive
+
+{"call":{"id":"1234","api_id":"removed","timestamp":1446921089,"nonce":"e41a1b76b28e72273c7bff7ad8ea1d822d84ee49","request":{"secure":{"api_id":"removed","timestamp":"1446921089","nonce":"e41a1b76b28e72273c7bff7ad8ea1d822d84ee49","signature":"removed","data":"redirect_uri=http%3A%2F%2Flocalhost"}},"response":{"result":{"status_code":"422","result_code":"4000","errors":[{"attribute":"product","message":"Product must be specified and be a valid product provided by the seller."},{"attribute":"customer","message":"A Customer must be specified for the subscription to be valid."}]},"meta":{"status_code":"422","result_code":"4000","errors":[{"attribute":"product","message":"Product must be specified and be a valid product provided by the seller."},{"attribute":"customer","message":"A Customer must be specified for the subscription to be valid."}]},"signup":{"product":{},"customer":{},"payment_profile":{},"subscription":{"id":null,"state":"pending","balance_in_cents":0,"current_period_ends_at":null,"next_assessment_at":null,"trial_started_at":null,"trial_ended_at":null,"activated_at":null,"expires_at":null,"created_at":null,"updated_at":null,"cancellation_message":null,"cancel_at_end_of_period":null,"canceled_at":null,"current_period_started_at":null,"previous_state":"pending","signup_payment_id":null,"signup_revenue":null,"delayed_cancel_at":null,"customer_id":null,"product_id":null,"payment_profile_id":null,"referral_code":null,"referrer_code":null,"referrer_subscription_id":null,"payment_type":null},"next_billing_manifest":{"line_items":[],"total_in_cents":0,"total_discount_in_cents":0,"total_tax_in_cents":0,"subtotal_in_cents":0,"start_date":null,"end_date":null,"period_type":null,"existing_balance_in_cents":0}}},"success":false}}

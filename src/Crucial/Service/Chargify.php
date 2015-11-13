@@ -103,18 +103,18 @@ class Chargify
         $this->_config = $config;
 
         // set individual properties
-        $this->_hostname  = $config['hostname'];
+        $this->_hostname  = trim($config['hostname'], '/');
         $this->_apiKey    = $config['api_key'];
         $this->_sharedKey = $config['shared_key'];
 
         $this->httpClient = new Client([
-            'base_url' => 'https://' . $this->_hostname,
+            'base_url' => 'https://' . $this->_hostname . '/',
             'defaults' => [
                 'timeout'         => 10,
                 'allow_redirects' => false,
                 'auth'            => [$this->_apiKey, $this->_password],
                 'headers'         => [
-                    'User-Agent'   => 'chargify-sdk-php/1.0 (https://github.com/crucialwebstudio/chargify-sdk-php)',
+                    'User-Agent'   => 'chargify-sdk-php/1.0 (https://github.com/chargely/chargify-sdk-php)',
                     'Content-Type' => 'application/' . $this->_format
                 ]
             ]
@@ -152,11 +152,10 @@ class Chargify
      */
     public function request($path, $method, $rawData = NULL, $params = array())
     {
-        $method = strtoupper($method);
-        $path   = ltrim($path, '/');
-
+        $method  = strtoupper($method);
+        $path    = ltrim($path, '/');
+        $path    = $path . '.' . $this->_format;
         $client  = $this->getHttpClient();
-        $path    = '/' . $path . '.' . $this->_format;
         $request = $client->createRequest($method, $path);
 
         // set headers if POST or PUT
@@ -181,24 +180,6 @@ class Chargify
 
             if (!empty($params)) {
                 $request->setQuery($params);
-
-//                foreach ($params as $k => $v) {
-//                    /**
-//                     * test for array and adjust URI accordingly
-//                     * this is needed for ?kinds[]=charge&kinds[]=info since \Zend_Http_Client
-//                     * doesn't handle this well with setParameterGet()
-//                     */
-//                    if (is_array($v)) {
-//                        $uri = '?';
-//                        foreach ($v as $value) {
-//                            $uri .= $k . '[]=' . $value . '&';
-//                        }
-//                        $uri = $client->getUri(TRUE) . trim($uri, '&');
-//                        $client->setUri($uri);
-//                    } else {
-//                        $client->setParameterGet($k, $v);
-//                    }
-//                }
             }
         }
 

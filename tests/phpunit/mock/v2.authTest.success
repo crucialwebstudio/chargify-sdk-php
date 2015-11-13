@@ -1,0 +1,20 @@
+HTTP/1.1 302 Found
+Cache-Control: no-cache
+Content-Type: text/html; charset=utf-8
+Date: Sun, 08 Nov 2015 00:17:10 GMT
+Location: http://localhost?api_id=643c0f40-2d26-0130-27f0-026566abd2f9&call_id=46aaf099a5a5b788b73d173ca76c7773d2bbd40f&nonce=e096fea70548daeca7b86cd48276578ee99c0f13&result_code=4000&signature=178c5be5815c20623d0f2bbe0f258c9d41b184f9&status_code=422&timestamp=1446941830
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Status: 302 Found
+Strict-Transport-Security: max-age=31536000
+X-Content-Type-Options: nosniff
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: invalidate, pass
+X-Request-Id: removed
+X-Runtime: 0.065507
+X-Ua-Compatible: IE=Edge,chrome=1
+X-Xss-Protection: 1; mode=block
+Content-Length: 351
+Connection: keep-alive
+
+<html><body>You are being <a href="http://localhost?api_id=643c0f40-2d26-0130-27f0-026566abd2f9&amp;call_id=46aaf099a5a5b788b73d173ca76c7773d2bbd40f&amp;nonce=e096fea70548daeca7b86cd48276578ee99c0f13&amp;result_code=4000&amp;signature=178c5be5815c20623d0f2bbe0f258c9d41b184f9&amp;status_code=422&amp;timestamp=1446941830">redirected</a>.</body></html>
