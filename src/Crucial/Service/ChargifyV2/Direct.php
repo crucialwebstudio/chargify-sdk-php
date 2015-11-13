@@ -85,8 +85,10 @@ class Direct
      */
     public function __construct(ChargifyV2 $service)
     {
-        $this->service        = $service;
+        $this->service         = $service;
         $this->authTestUtility = new AuthRequest($this);
+        $this->nonce           = $this->generateNonce();
+        $this->timeStamp       = time();
     }
 
     /**
@@ -211,6 +213,28 @@ class Direct
     }
 
     /**
+     * Get a 40 character string to use as a nonce
+     *
+     * This is the sha1 of a random string. sha1 gives us 40 characters which is
+     * the length required by Chargify Direct.
+     *
+     * @return string
+     */
+    protected function generateNonce()
+    {
+        // generate a random string
+        $bits   = 256;
+        $bytes  = ceil($bits / 8);
+        $string = '';
+        for ($i = 0; $i < $bytes; $i++) {
+            $string .= chr(mt_rand(0, 255));
+        }
+
+        // sha1 hash
+        return hash('sha1', $string);
+    }
+
+    /**
      * Get the URI where Chargify will redirect
      *
      * @return string
@@ -221,41 +245,22 @@ class Direct
     }
 
     /**
-     * Get a Unix timestamp
+     * Getter for $this->timeStamp
      *
      * @return int
      */
     public function getTimeStamp()
     {
-        if (empty($this->timeStamp)) {
-            $this->timeStamp = time();
-        }
-
         return $this->timeStamp;
     }
 
     /**
-     * Get a 40 character string to use as a nonce
-     *
-     * This is the sha1 of a random string. sha1 gives us 40 characters which is
-     * the length required by Chargify Direct.
+     * Getter for $this->nonce
      *
      * @return string
      */
     public function getNonce()
     {
-        if (empty($this->nonce)) {
-            // generate a random string
-            $bits   = 256;
-            $bytes  = ceil($bits / 8);
-            $string = '';
-            for ($i = 0; $i < $bytes; $i++) {
-                $string .= chr(mt_rand(0, 255));
-            }
-            // sha1 hash
-            $this->nonce = hash('sha1', $string);
-        }
-
         return $this->nonce;
     }
 
@@ -269,10 +274,12 @@ class Direct
     public function getRequestSignature()
     {
         if (empty($this->requestSignature)) {
-            $string                  = $this->getApiId()
+
+            $string = $this->getApiId()
                 . $this->getTimeStamp()
                 . $this->getNonce()
                 . $this->getDataString();
+
             $this->requestSignature = hash_hmac('sha1', $string, $this->getService()->getApiSecret());
         }
 
@@ -285,17 +292,24 @@ class Direct
      * We will use this calculation to compare against the signature we receive
      * back from Chargify after the redirect.
      *
+     * @param string $apiId      From $_GET['api_id']
+     * @param string $timestamp  From $_GET['timestamp']
+     * @param string $nonce      From $_GET['nonce']
+     * @param string $statusCode From $_GET['status_code']
+     * @param string $resultCode From $_GET['result_code']
+     * @param string $callId     From $_GET['call_id']
+     *
      * @return string
      * @see isValidResponseSignature()
      */
-    public function getResponseSignature()
+    public function getResponseSignature($apiId, $timestamp, $nonce, $statusCode, $resultCode, $callId)
     {
-        $string = $_GET['api_id']
-            . $_GET['timestamp']
-            . $_GET['nonce']
-            . $_GET['status_code']
-            . $_GET['result_code']
-            . $_GET['call_id'];
+        $string = $apiId
+            . $timestamp
+            . $nonce
+            . $statusCode
+            . $resultCode
+            . $callId;
 
         return hash_hmac('sha1', $string, $this->getService()->getApiSecret());
     }
@@ -307,12 +321,20 @@ class Direct
      * response signature. The signature to compare against will be available in
      * the query string $_GET['signature']
      *
+     * @param string $signature  Signature to compare against, from $_GET['signature']
+     * @param string $apiId      From $_GET['api_id']
+     * @param string $timestamp  From $_GET['timestamp']
+     * @param string $nonce      From $_GET['nonce']
+     * @param string $statusCode From $_GET['status_code']
+     * @param string $resultCode From $_GET['result_code']
+     * @param string $callId     From $_GET['call_id']
+     *
      * @return bool
      * @see getResponseSignature()
      */
-    public function isValidResponseSignature()
+    public function isValidResponseSignature($signature, $apiId, $timestamp, $nonce, $statusCode, $resultCode, $callId)
     {
-        return ($_GET['signature'] == $this->getResponseSignature());
+        return ($signature == $this->getResponseSignature($apiId, $timestamp, $nonce, $statusCode, $resultCode, $callId));
     }
 
     /**
@@ -334,7 +356,7 @@ class Direct
      */
     public function getCardUpdateAction($subscriptionId)
     {
-        return $this->getService()->getBaseUrl() . '/subscriptions/' . (string)$subscriptionId . '/card_update';
+        return trim($this->getService()->getBaseUrl(), '/') . '/subscriptions/' . (string)$subscriptionId . '/card_update';
     }
 
     /**
