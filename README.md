@@ -6,11 +6,11 @@
 [![License](https://poser.pugx.org/chargely/chargify-sdk-php/license)](https://packagist.org/packages/chargely/chargify-sdk-php)
 
 This library helps you interact with the Chargify API using PHP. It has been used in production for many years by our 
-flagship product, [Chargley, a billing portal for Chargify](http://www.chargely.com).
+flagship product, [Chargley, a billing portal for Chargify][chargely-homepage].
 
 # Installation
 
-Using [Composer](https://getcomposer.org/) is the recommended way to install the Chargify SDK for PHP. Composer is a 
+Using [Composer][composer-homepage] is the recommended way to install the Chargify SDK for PHP. Composer is a 
 dependency management tool for PHP that allows you to declare the dependencies your project needs and installs them 
 into your project. In order to use the SDK with Composer, you must do the following:
 
@@ -129,10 +129,10 @@ into your project. In order to use the SDK with Composer, you must do the follow
         echo "Customer Email: " . $subscription['customer']['email'] . PHP_EOL;
     }
     
-# Running tests
+# Contributing
 
-    cd tests/phpunit
-    ../../vendor/bin/phpunit
-    
-    # with coverage report
-    ../../vendor/bin/phpunit --coverage-html artifacts/coverage
+Please see [CONTRIBUTING.md][contributing] for more information.
+
+[chargely-homepage]: http://www.chargely.com
+[composer-homepage]: https://getcomposer.org
+[contributing]: https://github.com/chargely/chargify-sdk-php/blob/master/CONTRIBUTING.md
