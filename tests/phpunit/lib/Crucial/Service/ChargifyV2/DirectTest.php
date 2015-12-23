@@ -172,11 +172,11 @@ class Crucial_Service_ChargifyV2_DirectTest extends PHPUnit_Framework_TestCase
         $dataField      = '<input type="hidden" name="secure[data]"      value="' . $direct->getDataStringEncoded() . '" />';
         $signatureField = '<input type="hidden" name="secure[signature]" value="' . $direct->getRequestSignature() . '" />';
 
-        $this->assertTrue(strpos($hiddenFields, $apiIdField) !== false);
-        $this->assertTrue(strpos($hiddenFields, $timestampField) !== false);
-        $this->assertTrue(strpos($hiddenFields, $nonceField) !== false);
-        $this->assertTrue(strpos($hiddenFields, $dataField) !== false);
-        $this->assertTrue(strpos($hiddenFields, $signatureField) !== false);
+        $this->assertContains($apiIdField, $hiddenFields);
+        $this->assertContains($timestampField, $hiddenFields);
+        $this->assertContains($nonceField, $hiddenFields);
+        $this->assertContains($dataField, $hiddenFields);
+        $this->assertContains($signatureField, $hiddenFields);
     }
 
     /**
