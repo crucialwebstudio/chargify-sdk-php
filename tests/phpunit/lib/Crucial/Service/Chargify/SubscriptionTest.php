@@ -1,5 +1,5 @@
 <?php
-use GuzzleHttp\Subscriber\Mock;
+use GuzzleHttp\Handler\MockHandler;
 
 
 /**
@@ -10,14 +10,7 @@ class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCa
 {
     public function testCreateSuccess()
     {
-        $chargify = ClientHelper::getInstance();
-
-        // set a mock response on the client
-        $mock = new Mock([
-            MockResponse::read('subscription.success')
-        ]);
-        $chargify->getHttpClient()->getEmitter()->attach($mock);
-
+        $chargify     = ClientHelper::getInstance('subscription.success');
         $subscription = $chargify->subscription()
             ->setProductId(123)
             ->setCustomerAttributes(array(
@@ -64,14 +57,7 @@ class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCa
 
     public function testNoShippingCreatesError()
     {
-        $chargify = ClientHelper::getInstance();
-
-        // set a mock response on the client
-        $mock = new Mock([
-            MockResponse::read('subscription.error.no_shipping')
-        ]);
-        $chargify->getHttpClient()->getEmitter()->attach($mock);
-
+        $chargify     = ClientHelper::getInstance('subscription.error.no_shipping');
         $subscription = $chargify->subscription()
             ->setProductId(123)
             ->setCustomerAttributes(array(

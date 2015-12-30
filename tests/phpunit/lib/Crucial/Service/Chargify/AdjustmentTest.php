@@ -1,6 +1,4 @@
 <?php
-use GuzzleHttp\Subscriber\Mock;
-
 
 /**
  * Class Crucial_Service_Chargify_AdjustmentTest
@@ -10,14 +8,7 @@ class Crucial_Service_Chargify_AdjustmentTest extends PHPUnit_Framework_TestCase
 {
     public function testCreateSuccess()
     {
-        $chargify = ClientHelper::getInstance();
-
-        // set a mock response on the client
-        $mock = new Mock([
-            MockResponse::read('adjustment.create.success')
-        ]);
-        $chargify->getHttpClient()->getEmitter()->attach($mock);
-
+        $chargify   = ClientHelper::getInstance('adjustment.create.success');
         $adjustment = $chargify->adjustment()
             ->setAmountInCents(1099)
             ->setMemo('Test Memo')
@@ -39,13 +30,7 @@ class Crucial_Service_Chargify_AdjustmentTest extends PHPUnit_Framework_TestCase
 
     public function testNoAmountCreatesError()
     {
-        $chargify = ClientHelper::getInstance();
-
-        // set a mock response on the client
-        $mock = new Mock([
-            MockResponse::read('adjustment.create.error.no_amount')
-        ]);
-        $chargify->getHttpClient()->getEmitter()->attach($mock);
+        $chargify = ClientHelper::getInstance('adjustment.create.error.no_amount');
 
         $adjustment = $chargify->adjustment()
             ->create(123);

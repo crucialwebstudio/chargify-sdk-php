@@ -1,6 +1,4 @@
 <?php
-use GuzzleHttp\Subscriber\Mock;
-
 
 /**
  * Class Crucial_Service_Chargify_CustomerTest
@@ -11,14 +9,7 @@ class Crucial_Service_Chargify_CustomerTest extends PHPUnit_Framework_TestCase
 
     public function testReadByReference()
     {
-        $chargify = ClientHelper::getInstance();
-
-        // set a mock response on the client
-        $mock = new Mock([
-            MockResponse::read('customer.readByReference.success')
-        ]);
-        $chargify->getHttpClient()->getEmitter()->attach($mock);
-
+        $chargify = ClientHelper::getInstance('customer.readByReference.success');
         $customer = $chargify->customer()
             ->setReference(123456)
             ->readByReference();
@@ -31,14 +22,7 @@ class Crucial_Service_Chargify_CustomerTest extends PHPUnit_Framework_TestCase
 
     public function testReadByChargifyId()
     {
-        $chargify = ClientHelper::getInstance();
-
-        // set a mock response on the client
-        $mock = new Mock([
-            MockResponse::read('customer.readByChargifyId.success')
-        ]);
-        $chargify->getHttpClient()->getEmitter()->attach($mock);
-
+        $chargify = ClientHelper::getInstance('customer.readByChargifyId.success');
         $customer = $chargify->customer()
             ->readByChargifyId(12345);
 

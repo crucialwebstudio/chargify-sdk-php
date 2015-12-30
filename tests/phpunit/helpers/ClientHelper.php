@@ -1,17 +1,21 @@
 <?php
 
 use Crucial\Service\Chargify;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7;
 
 class ClientHelper
 {
     /**
      * Get a Chargify client instance
      *
-     * @param string $env (test|dev)
+     * @param string $mockResponseFile Filename containing mocked response
+     * @param string $env              (test|dev)
      *
      * @return Chargify
      */
-    public static function getInstance($env = 'test')
+    public static function getInstance($mockResponseFile = null, $env = 'test')
     {
         $config = array();
         switch ($env) {
@@ -23,6 +27,16 @@ class ClientHelper
                 break;
         }
 
-        return new Chargify($config);
+        $chargify = new Chargify($config);
+
+        if (!empty($mockResponseFile)) {
+            $mock     = new MockHandler([
+                Psr7\parse_response(MockResponse::read($mockResponseFile))
+            ]);
+            $handler  = HandlerStack::create($mock);
+            $chargify->getHttpClient()->getConfig('handler')->setHandler($handler);
+        }
+
+        return $chargify;
     }
 }

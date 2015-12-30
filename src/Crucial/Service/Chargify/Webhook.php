@@ -7,7 +7,7 @@
  * You may not use this file except in compliance with the License.
  * A copy of the License is located at
  *
- * https://raw.githubusercontent.com/crucialwebstudio/chargify-sdk-php/master/LICENSE
+ * https://raw.githubusercontent.com/chargely/chargify-sdk-php/master/LICENSE.md
  *
  * or in the "license" file accompanying this file. This file is distributed
  * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either

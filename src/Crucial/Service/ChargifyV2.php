@@ -7,7 +7,7 @@
  * You may not use this file except in compliance with the License.
  * A copy of the License is located at
  *
- * https://raw.githubusercontent.com/crucialwebstudio/chargify-sdk-php/master/LICENSE
+ * https://raw.githubusercontent.com/chargely/chargify-sdk-php/master/LICENSE.md
  *
  * or in the "license" file accompanying this file. This file is distributed
  * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
@@ -15,15 +15,18 @@
  * permissions and limitations under the License.
  */
 
-
 namespace Crucial\Service;
 
-use GuzzleHttp\Client,
-    GuzzleHttp\Stream\Stream,
-    GuzzleHttp\Exception\RequestException,
-    Crucial\Service\ChargifyV2\Call,
-    Crucial\Service\ChargifyV2\Direct,
-    Crucial\Service\ChargifyV2\Exception\BadMethodCallException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\HandlerStack;
+use Crucial\Service\Chargify;
+use Crucial\Service\ChargifyV2\Call;
+use Crucial\Service\ChargifyV2\Direct;
+use Crucial\Service\ChargifyV2\Exception\BadMethodCallException;
 
 class ChargifyV2
 {
@@ -65,14 +68,14 @@ class ChargifyV2
     /**
      * Last response received by the client
      *
-     * @var \GuzzleHttp\Message\Response|false
+     * @var Response|false
      */
     protected $lastResponse;
 
     /**
      * Guzzle http client
      *
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     protected $httpClient;
 
@@ -94,14 +97,13 @@ class ChargifyV2
         // set up http client
         $this->httpClient = new Client([
             'base_url' => $this->baseUrl,
-            'defaults' => [
-                'timeout'         => 10,
-                'allow_redirects' => false,
-                'auth'            => [$this->apiId, $this->apiPassword],
-                'headers'         => [
-                    'User-Agent' => 'chargify-sdk-php/1.0 (https://github.com/chargely/chargify-sdk-php)',
-                    'Accept'     => 'application/json'
-                ]
+            'handler'         => HandlerStack::create(),
+            'timeout'         => 10,
+            'allow_redirects' => false,
+            'auth'            => [$this->apiId, $this->apiPassword],
+            'headers'         => [
+                'User-Agent' => 'chargify-sdk-php/' . Chargify::VERSION . ' (https://github.com/chargely/chargify-sdk-php)',
+                'Accept'     => 'application/json'
             ]
         ]);
     }
@@ -180,43 +182,41 @@ class ChargifyV2
      * @param string $rawData
      * @param array  $params
      *
-     * @return \GuzzleHttp\Message\Response|false Response object or false if there was no response (networking error,
+     * @return Response|false Response object or false if there was no response (networking error,
      *                                            timeout, etc.)
      */
-    public function request($path, $method, $rawData = NULL, $params = array())
+    public function request($path, $method, $rawData = null, $params = [])
     {
         $method  = strtoupper($method);
         $path    = ltrim($path, '/');
         $client  = $this->getHttpClient();
-        $request = $client->createRequest($method, $path);
+        $method  = strtoupper($method);
+        $options = [
+            'query' => $params,
+            'body' => null,
+        ];
+
+        $request = new Request($method, $path);
 
         // set headers if POST or PUT
         if (in_array($method, array('POST', 'PUT'))) {
-            if (NULL === $rawData) {
+            if (null === $rawData) {
                 throw new BadMethodCallException('You must send raw data in a POST or PUT request');
             }
 
-            if (!empty($params)) {
-                $request->setQuery($params);
-            }
-
-            $request->setBody(Stream::factory($rawData));
+            $options['body'] = Psr7\stream_for($rawData);
         }
 
         // set headers if GET or DELETE
         if (in_array($method, array('GET', 'DELETE'))) {
 
             if (!empty($rawData)) {
-                $request->setBody(Stream::factory($rawData));
-            }
-
-            if (!empty($params)) {
-                $request->setQuery($params);
+                $options['body'] = Psr7\stream_for($rawData);
             }
         }
 
         try {
-            $response = $client->send($request);
+            $response = $client->send($request, $options);
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
@@ -231,7 +231,7 @@ class ChargifyV2
     }
 
     /**
-     * @return \GuzzleHttp\Message\Response|false
+     * @return Response|false
      */
     public function getLastResponse()
     {
