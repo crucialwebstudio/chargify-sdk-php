@@ -178,12 +178,11 @@ class ChargifyV2
      * Send the request to Chargify
      *
      * @param string $path   URL path we are requesting such as: /subscriptions/<subscription_id>/adjustments
-     * @param string $method GET, POST, PUST, DELETE
+     * @param string $method GET, POST, PUT, DELETE
      * @param string $rawData
      * @param array  $params
      *
-     * @return Response|false Response object or false if there was no response (networking error,
-     *                                            timeout, etc.)
+     * @return Response|false Response object or false if there was no response (networking error, timeout, etc.)
      */
     public function request($path, $method, $rawData = null, $params = [])
     {
@@ -198,21 +197,14 @@ class ChargifyV2
 
         $request = new Request($method, $path);
 
-        // set headers if POST or PUT
         if (in_array($method, array('POST', 'PUT'))) {
             if (null === $rawData) {
                 throw new BadMethodCallException('You must send raw data in a POST or PUT request');
             }
-
-            $options['body'] = Psr7\stream_for($rawData);
         }
 
-        // set headers if GET or DELETE
-        if (in_array($method, array('GET', 'DELETE'))) {
-
-            if (!empty($rawData)) {
-                $options['body'] = Psr7\stream_for($rawData);
-            }
+        if (!empty($rawData)) {
+            $options['body'] = Psr7\stream_for($rawData);
         }
 
         try {
