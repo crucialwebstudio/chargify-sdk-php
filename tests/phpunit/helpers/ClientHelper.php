@@ -1,9 +1,13 @@
 <?php
 
-use Crucial\Service\Chargify;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Psr7;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Crucial\Service\Chargify;
+
 
 class ClientHelper
 {
@@ -34,6 +38,16 @@ class ClientHelper
                 Psr7\parse_response(MockResponse::read($mockResponseFile))
             ]);
             $handler  = HandlerStack::create($mock);
+
+//            $logger = new Logger('Logger');
+//            $logger->pushHandler(new StreamHandler(dirname(__DIR__) . '/artifacts/logs/guzzle.log', Logger::DEBUG));
+//
+//            $middleware = new LoggerMiddleware($logger);
+//            $template   = MessageFormatter::DEBUG;
+//            $middleware->setFormatter(new MessageFormatter($template));
+//
+//            $handler->push($middleware);
+
             $chargify->getHttpClient()->getConfig('handler')->setHandler($handler);
         }
 
