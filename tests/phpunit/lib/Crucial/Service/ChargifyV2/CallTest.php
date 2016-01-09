@@ -1,7 +1,4 @@
 <?php
-use GuzzleHttp\Subscriber\Mock;
-
-
 /**
  * Class Crucial_Service_ChargifyV2_CallTest
  *
@@ -10,13 +7,13 @@ class Crucial_Service_ChargifyV2_CallTest extends PHPUnit_Framework_TestCase
 {
     public function testReadSuccess()
     {
-        $chargify = ClientV2Helper::getInstance();
+        $chargify = ClientV2Helper::getInstance('v2.call.read.success');
 
         // set a mock response on the client
-        $mock = new Mock([
-            MockResponse::read('v2.call.read.success')
-        ]);
-        $chargify->getHttpClient()->getEmitter()->attach($mock);
+//        $mock = new MockHandler([
+//            MockResponse::read('v2.call.read.success')
+//        ]);
+//        $chargify->getHttpClient()->getEmitter()->attach($mock);
 
         $call     = $chargify->call()->readByChargifyId('1234');
         $response = $call->getService()->getLastResponse();
@@ -31,15 +28,13 @@ class Crucial_Service_ChargifyV2_CallTest extends PHPUnit_Framework_TestCase
 
     public function testNotFoundCreatesError()
     {
-        $mockFile = 'v2.call.read.error.not_found';
-
-        $chargify = ClientV2Helper::getInstance();
+        $chargify = ClientV2Helper::getInstance('v2.call.read.error.not_found');
 
         // set a mock response on the client
-        $mock = new Mock([
-            MockResponse::read($mockFile)
-        ]);
-        $chargify->getHttpClient()->getEmitter()->attach($mock);
+//        $mock = new MockHandler([
+//            MockResponse::read($mockFile)
+//        ]);
+//        $chargify->getHttpClient()->getEmitter()->attach($mock);
 
         $call     = $chargify->call()->readByChargifyId('1234');
         $response = $call->getService()->getLastResponse();

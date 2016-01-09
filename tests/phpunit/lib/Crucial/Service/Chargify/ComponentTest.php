@@ -1,6 +1,4 @@
 <?php
-use GuzzleHttp\Subscriber\Mock;
-
 
 /**
  * Class Crucial_Service_Chargify_ComponentTest
@@ -10,14 +8,7 @@ class Crucial_Service_Chargify_ComponentTest extends PHPUnit_Framework_TestCase
 {
     public function testCreateMeteredStairstepSuccess()
     {
-        $chargify = ClientHelper::getInstance();
-
-        // set a mock response on the client
-        $mock = new Mock([
-            MockResponse::read('component.createMeteredStairstep.success')
-        ]);
-        $chargify->getHttpClient()->getEmitter()->attach($mock);
-
+        $chargify  = ClientHelper::getInstance('component.createMeteredStairstep.success');
         $component = $chargify->component()
             ->setName('Text Messages')
             ->setUnitName('message')
@@ -50,14 +41,7 @@ class Crucial_Service_Chargify_ComponentTest extends PHPUnit_Framework_TestCase
 
     public function testCreateMeteredStairstepError()
     {
-        $chargify = ClientHelper::getInstance();
-
-        // set a mock response on the client
-        $mock = new Mock([
-            MockResponse::read('adjustment.createMeteredStairstep.error.no_prices')
-        ]);
-        $chargify->getHttpClient()->getEmitter()->attach($mock);
-
+        $chargify  = ClientHelper::getInstance('adjustment.createMeteredStairstep.error.no_prices');
         $component = $chargify->component()
             ->setName('Text Messages')
             ->setUnitName('message')

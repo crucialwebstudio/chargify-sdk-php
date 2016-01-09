@@ -7,7 +7,7 @@
  * You may not use this file except in compliance with the License.
  * A copy of the License is located at
  *
- * https://raw.githubusercontent.com/crucialwebstudio/chargify-sdk-php/master/LICENSE
+ * https://raw.githubusercontent.com/chargely/chargify-sdk-php/master/LICENSE.md
  *
  * or in the "license" file accompanying this file. This file is distributed
  * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
@@ -17,30 +17,38 @@
 
 namespace Crucial\Service;
 
-use GuzzleHttp\Client,
-    GuzzleHttp\Stream\Stream,
-    GuzzleHttp\Exception\RequestException,
-    Crucial\Service\Chargify\Exception\BadMethodCallException,
-    Crucial\Service\Chargify\Adjustment,
-    Crucial\Service\Chargify\Charge,
-    Crucial\Service\Chargify\Component,
-    Crucial\Service\Chargify\Coupon,
-    Crucial\Service\Chargify\Customer,
-    Crucial\Service\Chargify\Event,
-    Crucial\Service\Chargify\Product,
-    Crucial\Service\Chargify\Refund,
-    Crucial\Service\Chargify\Statement,
-    Crucial\Service\Chargify\Stats,
-    Crucial\Service\Chargify\Subscription,
-    Crucial\Service\Chargify\Transaction,
-    Crucial\Service\Chargify\Webhook;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\HandlerStack;
+use Crucial\Service\Chargify\Exception\BadMethodCallException;
+use Crucial\Service\Chargify\Adjustment;
+use Crucial\Service\Chargify\Charge;
+use Crucial\Service\Chargify\Component;
+use Crucial\Service\Chargify\Coupon;
+use Crucial\Service\Chargify\Customer;
+use Crucial\Service\Chargify\Event;
+use Crucial\Service\Chargify\Product;
+use Crucial\Service\Chargify\Refund;
+use Crucial\Service\Chargify\Statement;
+use Crucial\Service\Chargify\Stats;
+use Crucial\Service\Chargify\Subscription;
+use Crucial\Service\Chargify\Transaction;
+use Crucial\Service\Chargify\Webhook;
 
 class Chargify
 {
     /**
+     * Version
+     */
+    const VERSION = '0.0.5';
+
+    /**
      * Guzzle http client
      *
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     private $httpClient;
 
@@ -50,47 +58,47 @@ class Chargify
      *
      * @var string
      */
-    protected $_hostname;
+    protected $hostname;
 
     /**
      * Your http authentication password. The password is always "x".
      *
      * @var string
      */
-    protected $_password = 'x';
+    protected $password = 'x';
 
     /**
      * Your api key
      *
      * @var string
      */
-    protected $_apiKey;
+    protected $apiKey;
 
     /**
      * Shared key
      *
      * @var string
      */
-    protected $_sharedKey;
+    protected $sharedKey;
 
     /**
      * json
      *
      * @var string
      */
-    protected $_format = 'json';
+    protected $format = 'json';
 
     /**
      * Config used in constructor.
      *
      * @var array
      */
-    protected $_config;
+    protected $config;
 
     /**
-     * @var \GuzzleHttp\Message\Response|false|null
+     * @var Response|false|null
      */
-    protected $_lastResponse;
+    protected $lastResponse;
 
     /**
      * Initialize the service
@@ -100,29 +108,28 @@ class Chargify
     public function __construct($config)
     {
         // store a copy
-        $this->_config = $config;
+        $this->config = $config;
 
         // set individual properties
-        $this->_hostname  = trim($config['hostname'], '/');
-        $this->_apiKey    = $config['api_key'];
-        $this->_sharedKey = $config['shared_key'];
+        $this->hostname  = trim($config['hostname'], '/');
+        $this->apiKey    = $config['api_key'];
+        $this->sharedKey = $config['shared_key'];
 
         $this->httpClient = new Client([
-            'base_url' => 'https://' . $this->_hostname . '/',
-            'defaults' => [
-                'timeout'         => 10,
-                'allow_redirects' => false,
-                'auth'            => [$this->_apiKey, $this->_password],
-                'headers'         => [
-                    'User-Agent'   => 'chargify-sdk-php/1.0 (https://github.com/chargely/chargify-sdk-php)',
-                    'Content-Type' => 'application/' . $this->_format
-                ]
+            'base_uri'        => 'https://' . $this->hostname . '/',
+            'handler'         => HandlerStack::create(),
+            'timeout'         => 10,
+            'allow_redirects' => false,
+            'auth'            => [$this->apiKey, $this->password],
+            'headers'         => [
+                'User-Agent'   => 'chargify-sdk-php/' . self::VERSION . ' (https://github.com/chargely/chargify-sdk-php)',
+                'Content-Type' => 'application/' . $this->format
             ]
         ]);
     }
 
     /**
-     * @return \GuzzleHttp\Client
+     * @return Client
      */
     public function getHttpClient()
     {
@@ -136,55 +143,45 @@ class Chargify
      */
     public function getConfig()
     {
-        return $this->_config;
+        return $this->config;
     }
 
     /**
      * Send the request to Chargify
      *
      * @param string $path   URL path we are requesting such as: /subscriptions/<subscription_id>/adjustments
-     * @param string $method GET, POST, PUST, DELETE
+     * @param string $method GET, POST, PUT, DELETE
      * @param string $rawData
      * @param array  $params
      *
-     * @return \GuzzleHttp\Message\Response|FALSE Response object or FALSE if there was no response (networking error,
-     *                                            timeout, etc.)
+     * @return Response|FALSE Response object or FALSE if there was no response (networking error, timeout, etc.)
      */
-    public function request($path, $method, $rawData = NULL, $params = array())
+    public function request($path, $method, $rawData = null, $params = [])
     {
         $method  = strtoupper($method);
         $path    = ltrim($path, '/');
-        $path    = $path . '.' . $this->_format;
+        $path    = $path . '.' . $this->format;
         $client  = $this->getHttpClient();
-        $request = $client->createRequest($method, $path);
+        $method  = strtoupper($method);
+        $options = [
+            'query' => $params,
+            'body' => null,
+        ];
 
-        // set headers if POST or PUT
+        $request = new Request($method, $path);
+
         if (in_array($method, array('POST', 'PUT'))) {
-            if (NULL === $rawData) {
+            if (null === $rawData) {
                 throw new BadMethodCallException('You must send raw data in a POST or PUT request');
             }
-
-            if (!empty($params)) {
-                $request->setQuery($params);
-            }
-
-            $request->setBody(Stream::factory($rawData));
         }
 
-        // set headers if GET or DELETE
-        if (in_array($method, array('GET', 'DELETE'))) {
-
-            if (!empty($rawData)) {
-                $request->setBody(Stream::factory($rawData));
-            }
-
-            if (!empty($params)) {
-                $request->setQuery($params);
-            }
+        if (!empty($rawData)) {
+            $options['body'] = Psr7\stream_for($rawData);
         }
 
         try {
-            $response = $client->send($request);
+            $response = $client->send($request, $options);
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
@@ -193,17 +190,17 @@ class Chargify
             }
         }
 
-        $this->_lastResponse = $response;
+        $this->lastResponse = $response;
 
         return $response;
     }
 
     /**
-     * @return \GuzzleHttp\Message\Response
+     * @return Response
      */
     public function getLastResponse()
     {
-        return $this->_lastResponse;
+        return $this->lastResponse;
     }
 
     /**

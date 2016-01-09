@@ -7,7 +7,7 @@
  * You may not use this file except in compliance with the License.
  * A copy of the License is located at
  *
- * https://raw.githubusercontent.com/crucialwebstudio/chargify-sdk-php/master/LICENSE
+ * https://raw.githubusercontent.com/chargely/chargify-sdk-php/master/LICENSE.md
  *
  * or in the "license" file accompanying this file. This file is distributed
  * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
@@ -17,6 +17,7 @@
 
 namespace Crucial\Service\Chargify;
 
+use GuzzleHttp\Psr7\Response;
 use Crucial\Service\Chargify;
 
 abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
@@ -164,7 +165,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      * Transfoms the response body (json) into an array we can more easily
      * work with.
      *
-     * @param \GuzzleHttp\Message\Response|false $response
+     * @param Response|false $response
      *
      * @return array
      * @todo $this->_errors is populated with errors from Chargify. Should this also populate a separate errors array when we get HTTP 404s or 201s?
@@ -172,7 +173,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
     public function getResponseArray($response)
     {
         $return = array();
-        if (!($response instanceof \GuzzleHttp\Message\Response)) {
+        if (!($response instanceof Response)) {
             $this->_errors['Crucial_Service_Chargify']['networking error'] = 'no response';
 
             return $return;

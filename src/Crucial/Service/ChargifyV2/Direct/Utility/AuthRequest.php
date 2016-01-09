@@ -6,7 +6,7 @@
  * You may not use this file except in compliance with the License.
  * A copy of the License is located at
  *
- * https://raw.githubusercontent.com/crucialwebstudio/chargify-sdk-php/master/LICENSE
+ * https://raw.githubusercontent.com/chargely/chargify-sdk-php/master/LICENSE.md
  *
  * or in the "license" file accompanying this file. This file is distributed
  * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
@@ -16,9 +16,10 @@
 
 namespace Crucial\Service\ChargifyV2\Direct\Utility;
 
-use Crucial\Service\ChargifyV2\Direct,
-    GuzzleHttp\Client,
-    GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Response;
+use Crucial\Service\ChargifyV2\Direct;
 
 class AuthRequest
 {
@@ -33,7 +34,7 @@ class AuthRequest
     protected $httpClient;
 
     /**
-     * @var \GuzzleHttp\Message\Response|false
+     * @var Response|false
      */
     protected $lastResponse;
 
@@ -42,22 +43,8 @@ class AuthRequest
      */
     public function __construct(Direct $direct)
     {
-        $this->direct = $direct;
-
-        $service = $direct->getService();
-
-        $this->httpClient = new Client([
-            'base_url' => $service->getBaseUrl(),
-            'defaults' => [
-                'timeout'         => 10,
-                // do not allow redirects. just read the response
-                'allow_redirects' => false,
-                'auth'            => [$service->getApiId(), $service->getApiPassword()],
-                'headers'         => [
-                    'User-Agent' => 'chargify-sdk-php/1.0 (https://github.com/chargely/chargify-sdk-php)'
-                ]
-            ]
-        ]);
+        $this->direct     = $direct;
+        $this->httpClient = $direct->getService()->getHttpClient();
     }
 
     /**
@@ -68,12 +55,13 @@ class AuthRequest
     public function test()
     {
         $response = $this->request();
+        $body     = trim((string)$response->getBody());
 
         // invalid If body contains 'Incorrect signature'
-        $bodyIsInvalid = (0 === strcasecmp('Incorrect signature', trim((string)$response->getBody())));
+        $bodyIsInvalid = (0 === strcasecmp('Incorrect signature', $body));
 
         // invalid if chargify does not redirect us
-        $locationHeader    = trim($response->getHeader('Location'));
+        $locationHeader    = $response->getHeader('Location');
         $locationIsInvalid = empty($locationHeader);
 
         // invalid if status code is 200
@@ -95,7 +83,7 @@ class AuthRequest
     }
 
     /**
-     * @return false|\GuzzleHttp\Message\Response
+     * @return Response|false
      */
     public function getLastResponse()
     {
@@ -103,13 +91,13 @@ class AuthRequest
     }
 
     /**
-     * @return \GuzzleHttp\Message\Response|false|null
+     * @return Response|false|null
      */
     protected function request()
     {
         try {
             $response = $this->httpClient->post($this->direct->getSignupAction(), [
-                'body' => [
+                'form_params' => [
                     'secure' => [
                         'api_id'    => $this->direct->getApiId(),
                         'timestamp' => $this->direct->getTimeStamp(),
