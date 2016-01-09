@@ -580,7 +580,7 @@ class Subscription extends AbstractEntity
      *   Boolean, default 0. If 1 is sent initial charges will be assessed. If 0 is
      *   sent initial charges will be ignored.
      *
-     * @param int $id
+     * @param int $subscriptionId Existing subscription ID that you want to migrate
      *
      * @return Subscription
      * @see  Subscription::setProductId()
@@ -590,11 +590,11 @@ class Subscription extends AbstractEntity
      * @link http://docs.chargify.com/api-migrations
      * @todo ?? should this be moved to Crucial_Service_Chargify_Migration
      */
-    public function migrate($id)
+    public function migrate($subscriptionId)
     {
         $service       = $this->getService();
         $rawData       = $this->getRawData(array('migration' => $this->_params));
-        $response      = $service->request('subscriptions/' . (int)$id . '/migrations', 'POST', $rawData);
+        $response      = $service->request('subscriptions/' . (int) $subscriptionId . '/migrations', 'POST', $rawData);
         $responseArray = $this->getResponseArray($response);
 
         if (!$this->isError()) {
