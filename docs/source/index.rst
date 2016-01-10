@@ -4,9 +4,10 @@
 Chargify SDK for PHP Documentation
 ==================================
 
-Chargify SDK for PHP is a PHP package that makes it easy to interact with the Chargify API.
+Chargify SDK for PHP is a PHP package that makes it easy to interact with the Chargify API. It has been used in
+production for years on your flagship product, `Chargely, a hosted billing portal for Chargify <http://www.chargely.com>`_.
 
-- Simple interface for sending API calls to chargify.com
+- Abstracts away underlying HTTP requests to the Chargify API
 - Supports Chargify API v1 and Chargify Direct (v2)
 
 .. code-block:: php
