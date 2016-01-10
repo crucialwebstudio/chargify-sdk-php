@@ -4,6 +4,7 @@
 [![Build Status](https://img.shields.io/travis/chargely/chargify-sdk-php.svg?style=flat)](https://travis-ci.org/chargely/chargify-sdk-php)
 [![Latest Stable Version](https://img.shields.io/packagist/v/chargely/chargify-sdk-php.svg?style=flat)](https://packagist.org/packages/chargely/chargify-sdk-php)
 [![Apache 2 License](https://img.shields.io/packagist/l/chargely/chargify-sdk-php.svg?style=flat)](https://github.com/chargely/chargify-sdk-php/blob/master/LICENSE.md)
+[![Documentation Status](https://readthedocs.org/projects/chargify-sdk-for-php/badge/?version=latest)](http://chargify-sdk-php.chargely.com/en/latest/?badge=latest)
 
 This library helps you interact with the Chargify API using PHP. It has been used in production for many years by our 
 flagship product, [Chargley, a billing portal for Chargify][chargely-homepage].
