@@ -9,6 +9,8 @@ production for years on your flagship product, `Chargely, a hosted billing porta
 
 - Abstracts away underlying HTTP requests to the Chargify API
 - Supports Chargify API v1 and Chargify Direct (v2)
+- Well documented
+- Unit tested
 
 .. code-block:: php
 
