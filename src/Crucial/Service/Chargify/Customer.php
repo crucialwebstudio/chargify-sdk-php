@@ -207,6 +207,7 @@ class Customer extends AbstractEntity
      * Create a new customer
      *
      * @return Customer
+     *
      * @see Customer::setFirstName()
      * @see Customer::setLastName()
      * @see Customer::setEmail()
