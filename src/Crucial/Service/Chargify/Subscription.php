@@ -268,7 +268,7 @@ class Subscription extends AbstractEntity
     /**
      * (Optional, used for Subscription Import) Set this attribute to a future
      * date/time to sync imported subscriptions to your existing renewal
-     * schedule. See the notes on “Date/Time Format” below. If you provide a
+     * schedule. See the notes on "Date/Time Format" below. If you provide a
      * next_billing_at timestamp that is in the future, no trial or initial
      * charges will be applied when you create the subscription. In fact, no
      * payment will be captured at all. The first payment will be captured,
@@ -281,6 +281,8 @@ class Subscription extends AbstractEntity
      * @param string $nextBilling
      *
      * @return Subscription
+     *
+     * @link https://docs.chargify.com/api-subscriptions#date-format
      */
     public function setNextbillingAt($nextBilling)
     {
@@ -456,7 +458,7 @@ class Subscription extends AbstractEntity
      */
     public function cancelDelayed($id)
     {
-        $this->setCancelAtEndOfPeriod(TRUE);
+        $this->setCancelAtEndOfPeriod(true);
 
         $service       = $this->getService();
         $rawData       = $this->getRawData(array('subscription' => $this->_params));
