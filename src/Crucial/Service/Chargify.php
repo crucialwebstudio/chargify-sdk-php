@@ -43,7 +43,7 @@ class Chargify
     /**
      * Version
      */
-    const VERSION = '0.0.5';
+    const VERSION = '0.1.1';
 
     /**
      * Guzzle http client
