@@ -96,7 +96,7 @@ class ChargifyV2
 
         // set up http client
         $this->httpClient = new Client([
-            'base_url' => $this->baseUrl,
+            'base_uri' => $this->baseUrl,
             'handler'         => HandlerStack::create(),
             'timeout'         => 10,
             'allow_redirects' => false,
