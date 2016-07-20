@@ -30,6 +30,7 @@ use Crucial\Service\Chargify\Component;
 use Crucial\Service\Chargify\Coupon;
 use Crucial\Service\Chargify\Customer;
 use Crucial\Service\Chargify\Event;
+use Crucial\Service\Chargify\Metadata;
 use Crucial\Service\Chargify\Product;
 use Crucial\Service\Chargify\Refund;
 use Crucial\Service\Chargify\Statement;
