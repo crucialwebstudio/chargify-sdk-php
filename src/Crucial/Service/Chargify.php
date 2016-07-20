@@ -254,6 +254,15 @@ class Chargify
     }
 
     /**
+     * Helper for instantiating an instance of Metadata
+     *
+     * @return Charge
+     */
+    public function metadata()
+    {
+        return new Metadata($this);
+    }
+    /**
      * Helper for instantiating an instance of Component
      *
      * @return Component
