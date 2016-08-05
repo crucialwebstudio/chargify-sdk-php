@@ -88,7 +88,7 @@ class Webhook extends AbstractEntity
         $service = $this->getService();
 
         // webhooks for a site
-        $response = $service->request('webhooks', 'GET', NULL, $this->getParams());
+        $response = $service->request('webhooks', 'GET', null, $this->getParams());
 
         $responseArray = $this->getResponseArray($response);
 
@@ -99,6 +99,85 @@ class Webhook extends AbstractEntity
         }
 
         return $this;
+    }
+
+    /**
+     * Handle Chargify webhook
+     * @see https://help.chargify.com/webhooks/webhooks-reference.html
+     *
+     * @return $this|boolean
+     */
+    public function handle($logfile = false)
+    {
+        // Get webhook from Post request
+        $webhookHandler = new WebhookHandler($logfile);
+        $webhook = $webhookHandler->get();
+        return $this->webhookHandler($webhook);
+    }
+
+    /**
+     * Generate fake Chargify webhook to test handle() method
+     * @see https://help.chargify.com/webhooks/webhooks-reference.html
+     *
+     * @return $this|boolean
+     */
+    public function handleFake($logfile = false)
+    {
+        // Get fake webhook
+        $webhookHandler = new WebhookHandler($logfile);
+        $webhook = $webhookHandler->getFake();
+        return $this->webhookHandler($webhook);
+    }
+
+    /**
+     * Prepare webhook data
+     *
+     * @param bool|false $webhook
+     * @return $this|bool
+     */
+    private function webhookHandler($webhook = false)
+    {
+        if ($webhook) {
+            $this->setParam('event', $webhook['event']);
+            $this->setParam('id', $webhook['id']);
+            $this->setParam('payload', $webhook['payload']);
+
+            return $this;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Webhook event
+     * @see https://help.chargify.com/webhooks/webhooks-reference.html#events
+     *
+     * @return string
+     */
+    public function getEvent()
+    {
+        return $this->getParam('event');
+    }
+
+    /**
+     * Webhook id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return (int) $this->getParam('id');
+    }
+
+    /**
+     * Webhook payload
+     * @see https://help.chargify.com/webhooks/webhooks-reference.html#payloads
+     *
+     * @return array
+     */
+    public function getPayload()
+    {
+        return $this->getParam('payload');
     }
 
     /**
