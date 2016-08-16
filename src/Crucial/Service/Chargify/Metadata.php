@@ -35,4 +35,31 @@ class Metadata extends AbstractEntity
 
         return $this;
     }
+
+    /**
+     * Returns the first 20 custom fields.
+     *
+     * It's 20 becasue this is the default page size.
+     *
+     * @param $subscriptionId
+     * @param bool $normalize - multi-dimensional | one-dimensional result
+     * @return $this
+     */
+    public function readMetadata($subscriptionId, $normalize = false)
+    {
+        $service       = $this->getService();
+        $response      = $service->request('subscriptions/' . (int)$subscriptionId . '/metadata', 'GET');
+        $responseArray = $this->getResponseArray($response);
+
+        if (!$this->isError()) {
+            $this->_data = $responseArray['metadata'];
+            if($normalize){
+                $this->_data = array_column($this->_data, 'value', 'name');
+            }
+        } else {
+            $this->_data = array();
+        }
+
+        return $this;
+    }
 }

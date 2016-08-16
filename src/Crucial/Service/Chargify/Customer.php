@@ -260,7 +260,7 @@ class Customer extends AbstractEntity
     }
 
     /**
-     * Read the customer data for the given Chargify ID
+     * Read the customer data for the given Chargify ID (Customer ID)
      *
      * @param int $id
      *
