@@ -322,6 +322,23 @@ class Subscription extends AbstractEntity
     }
 
     /**
+     * Boolean, default 1. If 1 is sent the the balance accumolated balance will be
+     * preserved and not reset to 0.
+     *
+     * Useful when re-activating subscription
+     *
+     * @param int $preserveBalance
+     *
+     * @return Subscription
+     */
+    public function setPreserveBalance($preserveBalance = 1)
+    {
+        $this->setParam('preserve_balance', $preserveBalance);
+
+        return $this;
+    }
+
+    /**
      * Enter description here...
      *
      * @param string $coupon_code
@@ -486,11 +503,16 @@ class Subscription extends AbstractEntity
     {
         $service = $this->getService();
 
-        // this PUT request accepts a query string of 'include_trial'
+        // this PUT request accepts a query string of 'include_trial' and 'preserve_balance'
         $params       = array();
         $includeTrial = $this->getParam('include_trial');
         if (is_int($includeTrial)) {
             $params['include_trial'] = $includeTrial;
+        }
+
+        $preserveBalance = $this->getParam('preserve_balance');
+        if (is_int($preserveBalance)) {
+            $params['preserve_balance'] = $preserveBalance;
         }
 
         $response      = $service->request('subscriptions/' . (int)$id . '/reactivate', 'PUT', '', $params);

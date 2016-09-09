@@ -30,6 +30,7 @@ use Crucial\Service\Chargify\Component;
 use Crucial\Service\Chargify\Coupon;
 use Crucial\Service\Chargify\Customer;
 use Crucial\Service\Chargify\Event;
+use Crucial\Service\Chargify\Metadata;
 use Crucial\Service\Chargify\Product;
 use Crucial\Service\Chargify\Refund;
 use Crucial\Service\Chargify\Statement;
@@ -253,6 +254,15 @@ class Chargify
         return new Charge($this);
     }
 
+    /**
+     * Helper for instantiating an instance of Metadata
+     *
+     * @return Charge
+     */
+    public function metadata()
+    {
+        return new Metadata($this);
+    }
     /**
      * Helper for instantiating an instance of Component
      *

@@ -260,7 +260,7 @@ class Customer extends AbstractEntity
     }
 
     /**
-     * Read the customer data for the given Chargify ID
+     * Read the customer data for the given Chargify ID (Customer ID)
      *
      * @param int $id
      *
@@ -299,6 +299,28 @@ class Customer extends AbstractEntity
         // a 404 will be returned if not found, so make sure we have a 200
         if (!$this->isError() && '200' == $response->getStatusCode()) {
             $this->_data = $responseArray['customer'];
+        } else {
+            $this->_data = array();
+        }
+
+        return $this;
+    }
+    /**
+     * Read the customer managment link
+     *
+     * @param int $customerId - Chargify customer id
+     * @return Customer
+     */
+    public function readManagementLink($customerId)
+    {
+        $service = $this->getService();
+
+        $response      = $service->request('portal/customers/' . $customerId . '/management_link', 'GET');
+        $responseArray = $this->getResponseArray($response);
+
+        // a 404 will be returned if not found, so make sure we have a 200
+        if (!$this->isError() && '200' == $response->getStatusCode()) {
+            $this->_data = $responseArray;
         } else {
             $this->_data = array();
         }

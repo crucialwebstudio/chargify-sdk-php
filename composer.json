@@ -1,40 +1,38 @@
 {
-    "name": "chargely/chargify-sdk-php",
-    "homepage": "https://github.com/chargely/chargify-sdk-php",
-    "description": "Chargify SDK for PHP - Use the Chargify API in your PHP project",
-    "keywords": [
-        "chargify",
-        "chargify direct",
-        "chargify v2",
-        "billing portal",
-        "api",
-        "sdk",
-        "php",
-        "chargely"
-    ],
-    "type": "library",
-    "license": "Apache-2.0",
-    "authors": [
-        {
-            "name": "Chargely",
-            "homepage": "http://www.chargely.com"
-        }
-    ],
-    "support": {
-        "issues": "https://github.com/chargely/chargify-sdk-php/issues"
-    },
-    "require": {
-        "php": ">=5.5.0",
-        "guzzlehttp/guzzle": "6.1.1"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "4.*",
-        "fabpot/php-cs-fixer": "1.11",
-        "monolog/monolog": "1.17.2"
-    },
-    "autoload": {
-        "psr-4": {
-            "Crucial\\Service\\": "src/Crucial/Service"
-        }
+  "name": "chargely/chargify-sdk-php",
+  "homepage": "https://github.com/chargely/chargify-sdk-php",
+  "description": "Chargify SDK for PHP - Use the Chargify API in your PHP project",
+  "keywords": [
+    "chargify",
+    "chargify direct",
+    "chargify v2",
+    "billing portal",
+    "api",
+    "sdk",
+    "php",
+    "chargely"
+  ],
+  "type": "library",
+  "license": "Apache-2.0",
+  "authors": [{
+    "name": "Chargely",
+    "homepage": "http://www.chargely.com"
+  }],
+  "support": {
+    "issues": "https://github.com/chargely/chargify-sdk-php/issues"
+  },
+  "require": {
+    "php": ">=5.5.0",
+    "guzzlehttp/guzzle": "6.1.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.*",
+    "fabpot/php-cs-fixer": "1.11",
+    "monolog/monolog": "1.17.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Crucial\\Service\\": "src/Crucial/Service"
     }
+  }
 }
