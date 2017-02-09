@@ -69,7 +69,7 @@ Add "chargely/chargify-sdk-php" as a dependency in your project's composer.json 
 ```json
 {
   "require": {
-      "chargely/chargify-sdk-php": "0.1.1"
+      "chargely/chargify-sdk-php": "0.1.2"
   }
 }
 ```
