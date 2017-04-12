@@ -88,8 +88,7 @@ class Chargify
      */
     protected $timeout = 10;
 
-
-    /**
+    /*
      * json
      *
      * @var string
