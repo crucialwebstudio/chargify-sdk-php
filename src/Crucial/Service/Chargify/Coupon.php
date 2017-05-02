@@ -86,4 +86,29 @@ class Coupon extends AbstractEntity
 
         return $this;
     }
+
+    /**
+     * Find a Valid Coupon
+     * Works similar to Coupon::find(), except that returns the Coupon object
+     * only when the coupon is found and valid
+     *
+     * @param int $productFamilyId
+     *
+     * @return Coupon
+     * @see  Coupon::setCode()
+     */
+    public function findValid($productFamilyId) {
+        $service       = $this->getService();
+        $response      = $service->request('product_families/' . $productFamilyId . '/coupons/validate', 'GET', NULL, $this->_params);
+        $responseArray = $this->getResponseArray($response);
+
+        // status code must be 200, otherwise the code in $this->setCode() was not found
+        if (!$this->isError() && '200' == $response->getStatusCode()) {
+            $this->_data = $responseArray['coupon'];
+        } else {
+            $this->_data = array();
+        }
+
+        return $this;
+    }
 }
