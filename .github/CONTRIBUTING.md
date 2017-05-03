@@ -39,6 +39,6 @@ make test
 [issues]: https://github.com/chargely/chargify-sdk-php/issues
 [pull-requests]: https://github.com/chargely/chargify-sdk-php/pulls
 [license]: https://github.com/chargely/chargify-sdk-php/blob/master/LICENSE.md
-[cla]: ./CLA.txt
+[cla]: ../CLA.txt
 [php-fig]: http://php-fig.org
 [cs-fixer]: http://cs.sensiolabs.org/
