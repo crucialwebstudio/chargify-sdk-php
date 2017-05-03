@@ -14,6 +14,31 @@ flagship product, [Chargley, a billing portal for Chargify][chargely-homepage].
 - [Well documented][documentation]
 - Unit tested
 
+# Installation
+
+Using [Composer][composer-homepage] is the recommended way to install the Chargify SDK for PHP. Composer is a 
+dependency management tool for PHP that allows you to declare the dependencies your project needs and installs them 
+into your project. In order to use the SDK with Composer, you must do the following:
+
+1. Install Composer, if you don't already have it:
+
+	```bash
+	curl -sS https://getcomposer.org/installer | php
+	```
+
+1. Run the Composer command to install the latest stable version of the SDK:
+
+	```bash
+	php composer.phar require chargely/chargify-sdk-php
+	```
+
+1. Require Composer's autoloader:
+
+	```php
+	<?php
+	require '/path/to/vendor/autoload.php';
+	```
+
 # Quick Example
 
 Create a new customer.
@@ -57,41 +82,6 @@ if ($customer->isError()) {
 
 - [Documentation][documentation]
 - [Issues][issues]
-
-# Installation
-
-Using [Composer][composer-homepage] is the recommended way to install the Chargify SDK for PHP. Composer is a 
-dependency management tool for PHP that allows you to declare the dependencies your project needs and installs them 
-into your project. In order to use the SDK with Composer, you must do the following:
-
-Add "chargely/chargify-sdk-php" as a dependency in your project's composer.json file.
-
-```json
-{
-  "require": {
-      "chargely/chargify-sdk-php": "0.1.2"
-  }
-}
-```
-
-Download and install Composer, if you don't already have it.
-
-```bash
-curl -sS https://getcomposer.org/installer | php
-```
-
-Install your dependencies, including your newly added Chargify SDK for PHP.
-
-```bash
-php composer.phar install
-```
-
-Require Composer's autoloader
-
-```php
-<?php
-require '/path/to/vendor/autoload.php';
-```
     
 # Contributing
 
@@ -99,6 +89,6 @@ Please see [CONTRIBUTING.md][contributing] for more information.
 
 [chargely-homepage]: http://www.chargely.com
 [composer-homepage]: https://getcomposer.org
-[contributing]: https://github.com/chargely/chargify-sdk-php/blob/master/CONTRIBUTING.md
+[contributing]: ./.github/CONTRIBUTING.md
 [documentation]: http://chargify-sdk-php.chargely.com
 [issues]: https://github.com/chargely/chargify-sdk-php/issues
