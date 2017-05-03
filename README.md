@@ -20,7 +20,7 @@ Using [Composer][composer-homepage] is the recommended way to install the Chargi
 dependency management tool for PHP that allows you to declare the dependencies your project needs and installs them 
 into your project. In order to use the SDK with Composer, you must do the following:
 
-1. Install Composer, if you don't already have it.
+1. Install Composer, if you don't already have it:
 
 	```bash
 	curl -sS https://getcomposer.org/installer | php
@@ -32,7 +32,7 @@ into your project. In order to use the SDK with Composer, you must do the follow
 	php composer.phar require chargely/chargify-sdk-php
 	```
 
-1. Require Composer's autoloader
+1. Require Composer's autoloader:
 
 	```php
 	<?php
