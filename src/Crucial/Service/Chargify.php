@@ -82,6 +82,13 @@ class Chargify
     protected $sharedKey;
 
     /**
+     * Timeout
+     *
+     * @var int
+     */
+    protected $timeout = 10;
+
+    /*
      * json
      *
      * @var string
@@ -115,10 +122,15 @@ class Chargify
         $this->apiKey    = $config['api_key'];
         $this->sharedKey = $config['shared_key'];
 
+        if (!empty($config['timeout'])) {
+            $this->timeout   = $config['timeout'];
+        }
+
+
         $this->httpClient = new Client([
             'base_uri'        => 'https://' . $this->hostname . '/',
             'handler'         => HandlerStack::create(),
-            'timeout'         => 10,
+            'timeout'         => $this->timeout,
             'allow_redirects' => false,
             'auth'            => [$this->apiKey, $this->password],
             'headers'         => [
