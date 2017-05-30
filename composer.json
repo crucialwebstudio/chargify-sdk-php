@@ -1,7 +1,7 @@
 {
-    "name": "chargely/chargify-sdk-php",
-    "homepage": "https://github.com/chargely/chargify-sdk-php",
-    "description": "Chargify SDK for PHP - Use the Chargify API in your PHP project",
+    "name": "bnt-ar/chargify-sdk-php",
+    "homepage": "https://github.com/BNT-AR/chargify-sdk-php",
+    "description": "Chargify SDK for PHP - Use the Chargify API in your PHP project. Fork of chargely/chargify-sdk-php",
     "keywords": [
         "chargify",
         "chargify direct",
@@ -9,19 +9,18 @@
         "billing portal",
         "api",
         "sdk",
-        "php",
-        "chargely"
+        "php"
     ],
     "type": "library",
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "Chargely",
-            "homepage": "http://www.chargely.com"
+            "name": "BNT-AR",
+            "homepage": "http://www.bravenew.tech"
         }
     ],
     "support": {
-        "issues": "https://github.com/chargely/chargify-sdk-php/issues"
+        "issues": "https://github.com/BNT-AR/chargify-sdk-php/issues"
     },
     "require": {
         "php": ">=5.5.0",
