@@ -75,6 +75,19 @@ if ($customer->isError()) {
     $lastName   = $customer['last_name'];
     $email      = $customer['email'];
  }
+ 
+ # Handle webhooks
+ 
+ $webhook = $chargify->webhook()->handle('webhook.log');
+
+ if($webhook) {
+     echo $webhook->getEvent() . PHP_EOL;
+     echo $webhook->getId()  . PHP_EOL;
+     print_r($webhook->getPayload());
+ }
+ 
+ // Generate fake webhook
+ $webhook = $chargify->webhook()->handleFake();
 
 ```
 
