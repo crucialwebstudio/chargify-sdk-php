@@ -433,8 +433,13 @@ class Subscription extends AbstractEntity
      */
     public function cancelImmediately($id)
     {
-        $service       = $this->getService();
-        $rawData       = $this->getRawData(array('subscription' => $this->_params));
+        $service = $this->getService();
+        $rawData = null;
+
+        if ($this->_params != []) {
+            $rawData = $this->getRawData(array('subscription' => $this->_params));
+        }
+
         $response      = $service->request('subscriptions/' . (int)$id, 'DELETE', $rawData);
         $responseArray = $this->getResponseArray($response);
 
