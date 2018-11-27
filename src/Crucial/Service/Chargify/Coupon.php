@@ -129,7 +129,7 @@ class Coupon extends AbstractEntity
      * @see Coupon::setPage()
      * @see Coupon::setPerPage()
      */
-    public function list($productFamilyId = null)
+    public function listCoupons($productFamilyId = null)
     {
         $service       = $this->getService();
         if ( isset( $productFamilyId ) ) {
