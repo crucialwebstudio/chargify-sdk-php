@@ -34,6 +34,37 @@ class Coupon extends AbstractEntity
     }
 
     /**
+     * How many records to fetch in each request, defaults to 200.
+     *
+     * @param int $perPage
+     *
+     * @return Coupon
+     */
+    public function setPerPage($perPage)
+    {
+        $this->setParam('per_page', $perPage);
+
+        return $this;
+    }
+
+    /**
+     * An integer value which specifies which page of results to fetch, starting
+     * at 1. Fetching successively higher page numbers will return additional
+     * results, until there are no more results to return (in which case an empty
+     * result set will be returned). Defaults to 1.
+     *
+     * @param int $page
+     *
+     * @return Coupon
+     */
+    public function setPage($page)
+    {
+        $this->setParam('page', $page);
+
+        return $this;
+    }
+
+    /**
      * You can retrieve a coupon via the API with the show method. Retrieving a
      * coupon via the API will allow you to determine whether or not the coupon
      * is valid.
@@ -86,4 +117,39 @@ class Coupon extends AbstractEntity
 
         return $this;
     }
+
+    /**
+     * You can list all coupons for a product family. If a product family is omitted,
+     * all coupons for the default product family will be included. This method is
+     * useful if you need to get all available coupon codes.
+     *
+     * @param int $productFamilyId
+     *
+     * @return Coupon
+     * @see Coupon::setPage()
+     * @see Coupon::setPerPage()
+     */
+    public function list($productFamilyId = null)
+    {
+        $service       = $this->getService();
+        if ( isset( $productFamilyId ) ) {
+            $response  = $service->request('product_families/' . $productFamilyId . '/coupons', 'GET', NULL, $this->_params);
+        } else {
+            $response  = $service->request('coupons', 'GET', NULL, $this->_params);
+        }
+
+        $responseArray = $this->getResponseArray($response);
+        $this->_data   = array();
+
+        // status code must be 200, otherwise the code in $this->setCode() was not found
+        if (!$this->isError() && '200' == $response->getStatusCode()) {
+            foreach( $responseArray as $result ) {
+                $this->_data[] = $result['coupon'];
+            }
+        }
+
+        return $this;
+    }
+
+
 }
