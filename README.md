@@ -1,10 +1,10 @@
 # Chargify SDK for PHP
 
 [![Total Downloads](https://img.shields.io/packagist/dt/chargely/chargify-sdk-php.svg?style=flat)](https://packagist.org/packages/chargely/chargify-sdk-php)
-[![Build Status](https://img.shields.io/travis/chargely/chargify-sdk-php.svg?style=flat)](https://travis-ci.org/chargely/chargify-sdk-php)
+[![Build Status](https://img.shields.io/travis/crucialwebstudio/chargify-sdk-php.svg?style=flat)](https://travis-ci.org/crucialwebstudio/chargify-sdk-php)
 [![Latest Stable Version](https://img.shields.io/packagist/v/chargely/chargify-sdk-php.svg?style=flat)](https://packagist.org/packages/chargely/chargify-sdk-php)
 [![Apache 2 License](https://img.shields.io/packagist/l/chargely/chargify-sdk-php.svg?style=flat)](https://github.com/chargely/chargify-sdk-php/blob/master/LICENSE.md)
-[![Documentation Status](https://readthedocs.org/projects/chargify-sdk-for-php/badge/?version=latest)](http://chargify-sdk-php.chargely.com/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/chargify-sdk-for-php/badge/?version=latest)](https://chargify-sdk-for-php.readthedocs.io/en/latest/?badge=latest)
 
 Interact with the Chargify API using PHP.
 
