@@ -88,5 +88,5 @@ Please see [CONTRIBUTING.md][contributing] for more information.
 
 [composer-homepage]: https://getcomposer.org
 [contributing]: ./.github/CONTRIBUTING.md
-[documentation]: http://chargify-sdk-php.chargely.com
-[issues]: https://github.com/chargely/chargify-sdk-php/issues
+[documentation]: https://chargify-sdk-for-php.readthedocs.io
+[issues]: https://github.com/crucialwebstudio/chargify-sdk-php/issues
