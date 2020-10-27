@@ -118,5 +118,14 @@ class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCa
         // check there wasn't an error
         $this->assertFalse($subscription->isError(), '$subscription has an error');
         $this->assertEquals(200, $response->getStatusCode(), 'Expected status code 200');
+
+        // check for a couple of attributes on the $subscription object
+        $this->assertNotEmpty($subscription->offsetGet('current_billing_manifest'), '$subscription["current_billing_manifest"] preview was empty');
+        $this->assertCount(3, $subscription->offsetGet('current_billing_manifest')['line_items'], '$subscription["current_billing_manifest"]["line_items"] did not match what was given in request');
+
+        $taxations = $subscription->offsetGet('current_billing_manifest')['line_items'][0]['taxations'];
+        $this->assertNotEmpty($taxations, '$taxations from subscription preview was empty');
+        $this->assertEquals( 'WA Tax (8.9%)', $taxations[0]['tax_name'], 'Tax name did not match what was given in request');
+        $this->assertEquals( 89, $taxations[0]['tax_amount_in_cents'], 'Tax amount did not match what was given in request');
     }
 }
