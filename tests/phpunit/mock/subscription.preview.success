@@ -1,0 +1,26 @@
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+Date: Tue, 27 Oct 2020 20:38:33 GMT
+Etag: W/"219068257df4cf54ea0446c6f587fb46"
+Location: https://fake.chargify.com/subscriptions/preview
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Set-Cookie: removed
+Status: 200 OK
+Strict-Transport-Security: max-age=31536000
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: invalidate, pass
+X-Ratelimit-Limit: 1000000
+X-Ratelimit-Remaining: 999998
+X-Ratelimit-Reset: 1426809600
+X-Request-Id: removed
+X-Runtime: 2.413784
+X-Ua-Compatible: IE=Edge,chrome=1
+X-Xss-Protection: 1; mode=block
+transfer-encoding: chunked
+Connection: keep-alive
+
+{"subscription_preview":{"current_billing_manifest":{"line_items":[{"transaction_type":"charge","kind":"initial","amount_in_cents":999,"memo":"Initial/Startup fees","discount_amount_in_cents":0,"taxable_amount_in_cents":999,"taxations":[{"tax_id":null,"tax_name":"WA Tax (8.9%)","rate":"","tax_amount_in_cents":89,"tax_rules":[]}]},{"transaction_type":"charge","kind":"baseline","amount_in_cents":0,"memo":"Test Product","discount_amount_in_cents":0,"taxable_amount_in_cents":0,"product_id":123,"product_handle":"test-product","product_name":"Test Product"},{"transaction_type":"charge","kind":"tax","amount_in_cents":89,"memo":"WA Tax (8.9%)","discount_amount_in_cents":0,"taxable_amount_in_cents":0}],"total_in_cents":1088,"total_discount_in_cents":0,"total_tax_in_cents":89,"subtotal_in_cents":999,"start_date":"2020-10-27T19:54:51Z","end_date":"2020-10-28T19:54:51Z","period_type":"recurring","existing_balance_in_cents":0},"next_billing_manifest":{"line_items":[],"total_in_cents":0,"total_discount_in_cents":0,"total_tax_in_cents":0,"subtotal_in_cents":0,"start_date":"2020-10-28T19:54:51Z","end_date":"2020-10-29T19:54:51Z","period_type":"recurring","existing_balance_in_cents":0}}}

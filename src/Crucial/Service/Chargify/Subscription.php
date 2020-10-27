@@ -659,6 +659,27 @@ class Subscription extends AbstractEntity
     }
 
     /**
+	 * Preview subscription details.
+	 *
+	 * @return Subscription
+	 */
+	public function preview()
+    {
+        $service = $this->getService();
+        $rawData = $this->getRawData(array('subscription' => $this->_params));
+        $response = $service->request('subscriptions/preview', 'POST', $rawData);
+        $responseArray = $this->getResponseArray($response);
+
+        if (!$this->isError()) {
+            $this->_data = $responseArray['subscription_preview'];
+        } else {
+            $this->_data = array();
+        }
+
+        return $this;
+    }
+
+    /**
      * This normalizes the array for us so we can rely on a consistent structure.
      *
      * @param array $responseArray

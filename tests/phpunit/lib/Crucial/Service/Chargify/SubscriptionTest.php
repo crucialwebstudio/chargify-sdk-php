@@ -97,4 +97,26 @@ class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCa
         // check for error messages
         $this->assertContains('Shipping Address: cannot be blank.', $errors);
     }
+
+    public function testPreviewSuccess()
+    {
+        $chargify = ClientHelper::getInstance('subscription.preview.success');
+        $subscription = $chargify->subscription()
+            ->setProductHandle( 'test-product' )
+            ->setParam('credit_card_attributes', array(
+                'address'   => '505 W Riverside Ave',
+                'address_2' => null,
+                'city'      => 'Spokane',
+                'state'     => 'WA',
+                'zip'       => '99201',
+                'country'   => 'US'
+            ))
+            ->preview();
+
+        $response = $subscription->getService()->getLastResponse();
+
+        // check there wasn't an error
+        $this->assertFalse($subscription->isError(), '$subscription has an error');
+        $this->assertEquals(200, $response->getStatusCode(), 'Expected status code 200');
+    }
 }
