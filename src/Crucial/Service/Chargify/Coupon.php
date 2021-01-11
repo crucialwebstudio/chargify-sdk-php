@@ -110,4 +110,28 @@ class Coupon extends AbstractEntity
 
         return $this;
     }
+
+    /**
+     * You can archive a coupon via the API with the archive method.
+     *
+     * @param int   $couponId
+     * @param int   $productFamilyId
+     *
+     * @return Coupon
+     */
+    public function archive($couponId, $productFamilyId)
+    {
+        $service       = $this->getService();
+        $response      = $service->request('product_families/' . $productFamilyId . '/coupons/' . $couponId, 'DELETE');
+        $responseArray = $this->getResponseArray($response);
+
+        // status code must be 200, otherwise the code in $this->setCode() was not found
+        if (!$this->isError() && '200' == $response->getStatusCode()) {
+            $this->_data = $responseArray['coupon'];
+        } else {
+            $this->_data = array();
+        }
+
+        return $this;
+    }
 }

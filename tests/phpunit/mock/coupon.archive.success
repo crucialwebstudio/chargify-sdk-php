@@ -1,0 +1,26 @@
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+Date: Thu, 19 Mar 2015 00:28:48 GMT
+Etag: "66d769f8a0864265e82c1e9a51b6a969"
+Location: https://fake.chargify.com/product_families/1312055/coupons/411029.json
+P3p: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+Server: nginx + Phusion Passenger
+Set-Cookie: removed
+Status: 200 OK
+Strict-Transport-Security: max-age=31536000
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Powered-By: Phusion Passenger
+X-Rack-Cache: invalidate, pass
+X-Ratelimit-Limit: 1000000
+X-Ratelimit-Remaining: 999998
+X-Ratelimit-Reset: 1426809600
+X-Request-Id: removed
+X-Runtime: 2.413784
+X-Ua-Compatible: IE=Edge,chrome=1
+X-Xss-Protection: 1; mode=block
+transfer-encoding: chunked
+Connection: keep-alive
+
+{"coupon":{"id":411029,"name":"Test user coupon","code":"PROXIO_TESTER_0001","description":"Coupon to avoid billing on test user.","amount":null,"amount_in_cents":null,"product_family_id":1312055,"product_family_name":"FlashCards for NOW Platform","start_date":"2021-01-11T13:27:03-08:00","end_date":null,"percentage":"100.0","recurring":false,"recurring_scheme":"do_not_recur","duration_period_count":null,"duration_interval":null,"duration_interval_unit":null,"duration_interval_span":"1_day","allow_negative_balance":false,"archived_at":"2021-01-11T14:09:15-08:00","conversion_limit":1,"stackable":false,"compounding_strategy":"compound","created_at":"2021-01-11T13:27:03-08:00","updated_at":"2021-01-11T14:09:15-08:00","discount_type":"percent","coupon_restrictions":[]}}

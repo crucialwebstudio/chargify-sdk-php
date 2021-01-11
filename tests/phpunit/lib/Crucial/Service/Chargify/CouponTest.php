@@ -61,4 +61,22 @@ class Crucial_Service_Chargify_CouponTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($coupon['id'], '$coupon["id"] was empty');
         $this->assertEquals('1', $coupon['conversion_limit'], '$subscription["conversion_limit"] did not match what was given in request');
     }
+
+    public function testArchiveSuccess()
+    {
+        $chargify = ClientHelper::getInstance('coupon.archive.success');
+        $coupon   = $chargify->coupon()
+            ->archive('411029', '1312055');
+
+        $response = $coupon->getService()->getLastResponse();
+
+        // check there wasn't an error
+        $this->assertFalse($coupon->isError(), '$coupon has an error');
+        $this->assertEquals(200, $response->getStatusCode(), 'Expected status code 200');
+
+        // check for a couple of attributes on the $coupon object
+        $this->assertNotEmpty($coupon['id'], '$coupon["id"] was empty');
+        $this->assertEquals('411029', $coupon['id'], '$subscription["id"] did not match what was given in request');
+        $this->assertEquals('2021-01-11T14:09:15-08:00', $coupon['archived_at'], '$subscription["archived_at"] did not match what was given in request');
+    }
 }
