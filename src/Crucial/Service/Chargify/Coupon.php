@@ -86,4 +86,28 @@ class Coupon extends AbstractEntity
 
         return $this;
     }
+
+    /**
+     * You can create a coupon via the API with the create method.
+     *
+     * @param int   $productFamilyId
+     *
+     * @return Coupon
+     */
+    public function create($productFamilyId)
+    {
+        $service       = $this->getService();
+        $rawData       = $this->getRawData(array('coupon' => $this->_params));
+        $response      = $service->request('product_families/' . $productFamilyId . '/coupons/find', 'POST', $rawData);
+        $responseArray = $this->getResponseArray($response);
+
+        // status code must be 200, otherwise the code in $this->setCode() was not found
+        if (!$this->isError() && '201' == $response->getStatusCode()) {
+            $this->_data = $responseArray['coupon'];
+        } else {
+            $this->_data = array();
+        }
+
+        return $this;
+    }
 }
