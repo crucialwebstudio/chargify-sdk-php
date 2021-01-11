@@ -97,4 +97,35 @@ class Crucial_Service_Chargify_SubscriptionTest extends PHPUnit_Framework_TestCa
         // check for error messages
         $this->assertContains('Shipping Address: cannot be blank.', $errors);
     }
+
+    public function testPreviewSuccess()
+    {
+        $chargify = ClientHelper::getInstance('subscription.preview.success');
+        $subscription = $chargify->subscription()
+            ->setProductHandle( 'test-product' )
+            ->setParam('credit_card_attributes', array(
+                'address'   => '505 W Riverside Ave',
+                'address_2' => null,
+                'city'      => 'Spokane',
+                'state'     => 'WA',
+                'zip'       => '99201',
+                'country'   => 'US'
+            ))
+            ->preview();
+
+        $response = $subscription->getService()->getLastResponse();
+
+        // check there wasn't an error
+        $this->assertFalse($subscription->isError(), '$subscription has an error');
+        $this->assertEquals(200, $response->getStatusCode(), 'Expected status code 200');
+
+        // check for a couple of attributes on the $subscription object
+        $this->assertNotEmpty($subscription->offsetGet('current_billing_manifest'), '$subscription["current_billing_manifest"] preview was empty');
+        $this->assertCount(3, $subscription->offsetGet('current_billing_manifest')['line_items'], '$subscription["current_billing_manifest"]["line_items"] did not match what was given in request');
+
+        $taxations = $subscription->offsetGet('current_billing_manifest')['line_items'][0]['taxations'];
+        $this->assertNotEmpty($taxations, '$taxations from subscription preview was empty');
+        $this->assertEquals( 'WA Tax (8.9%)', $taxations[0]['tax_name'], 'Tax name did not match what was given in request');
+        $this->assertEquals( 89, $taxations[0]['tax_amount_in_cents'], 'Tax amount did not match what was given in request');
+    }
 }
