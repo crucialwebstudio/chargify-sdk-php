@@ -98,7 +98,7 @@ class Coupon extends AbstractEntity
     {
         $service       = $this->getService();
         $rawData       = $this->getRawData(array('coupon' => $this->_params));
-        $response      = $service->request('product_families/' . $productFamilyId . '/coupons/find', 'POST', $rawData);
+        $response      = $service->request('product_families/' . $productFamilyId . '/coupons', 'POST', $rawData);
         $responseArray = $this->getResponseArray($response);
 
         // status code must be 200, otherwise the code in $this->setCode() was not found
