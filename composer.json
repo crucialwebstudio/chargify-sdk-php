@@ -36,5 +36,8 @@
         "psr-4": {
             "Crucial\\Service\\": "src/Crucial/Service"
         }
+    },
+    "scripts": {
+      "tests" : "vendor/bin/phpunit --colors=always --verbose --bootstrap tests/phpunit/bootstrap.php --configuration tests/phpunit/phpunit.xml tests/"
     }
 }

@@ -88,6 +88,35 @@ class Coupon extends AbstractEntity
     }
 
     /**
+     * You can validate for a coupon via the API with the validate method. By passing a
+     * code parameter, the find record will attempt to locate a coupon that
+     * matches that code. This method is useful for validating coupon codes that
+     * are entered by a customer. If no coupon is found, a 404 is returned.
+     *
+     * @param int $productFamilyId
+     * @param int $couponId
+     *
+     * @return Coupon
+     * @see  Coupon::setCode()
+     * @todo Unit test should return empty array if coupon is not found (404)
+     */
+    public function validate($productFamilyId, $couponId)
+    {
+        $service       = $this->getService();
+        $response      = $service->request('product_families/' . $productFamilyId . '/coupons/validate?code=' . $couponId, 'GET', NULL, $this->_params);
+        $responseArray = $this->getResponseArray($response);
+
+        // status code must be 200, otherwise the code in $this->setCode() was not found
+        if (!$this->isError() && '200' == $response->getStatusCode()) {
+            $this->_data = $responseArray['coupon'];
+        } else {
+            $this->_data = array();
+        }
+
+        return $this;
+    }
+
+    /**
      * You can create a coupon via the API with the create method.
      *
      * @param int   $productFamilyId

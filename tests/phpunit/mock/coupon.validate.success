@@ -19,4 +19,4 @@ X-Xss-Protection: 1; mode=block
 Content-Length: 487
 Connection: keep-alive
 
-{"coupon":{"allow_negative_balance":false,"amount_in_cents":null,"archived_at":null,"code":"TEST1","conversion_limit":null,"created_at":"2013-06-30T08:28:53-05:00","description":"Test coupon for first integration attempt","duration_interval":1,"duration_interval_unit":"month","duration_period_count":3,"end_date":null,"id":22311,"name":"test1","percentage":20,"product_family_id":11309,"recurring":true,"start_date":"2013-06-30T08:28:53-05:00","updated_at":"2013-06-30T08:28:53-05:00"}}
+{"coupon":{"allow_negative_balance":false,"amount_in_cents":null,"archived_at":null,"code":"TEST2","conversion_limit":null,"created_at":"2013-06-30T08:28:53-05:00","description":"Test coupon for first integration attempt","duration_interval":1,"duration_interval_unit":"month","duration_period_count":3,"end_date":null,"id":22311,"name":"test2","percentage":20,"product_family_id":11309,"recurring":true,"start_date":"2013-06-30T08:28:53-05:00","updated_at":"2013-06-30T08:28:53-05:00"}}
