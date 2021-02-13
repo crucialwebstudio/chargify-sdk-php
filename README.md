@@ -1,4 +1,4 @@
-> This project is looking for a new maintainer. If you are interested please contact me at https://www.crucialwebstudio.com
+> [This project is looking for a new maintainer.](https://github.com/crucialwebstudio/chargify-sdk-php/issues/39)
 
 # Chargify SDK for PHP
 
