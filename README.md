@@ -1,3 +1,5 @@
+> This project is looking for a new maintainer. If you are interested please contact me at https://www.crucialwebstudio.com
+
 # Chargify SDK for PHP
 
 [![Total Downloads](https://img.shields.io/packagist/dt/chargely/chargify-sdk-php.svg?style=flat)](https://packagist.org/packages/chargely/chargify-sdk-php)
