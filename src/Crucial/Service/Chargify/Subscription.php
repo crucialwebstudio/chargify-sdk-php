@@ -478,6 +478,28 @@ class Subscription extends AbstractEntity
     }
 
     /**
+     * Clears the pending cancellation from a subscription in delayed cancellation
+     *
+     * @param int $id
+     *
+     * @return Subscription
+     * @see Subscription::cancelDelayed()
+     */
+    public function clearPendingCancellation($id)
+    {
+        $service = $this->getService();
+        $response = $service->request('subscriptions/' . (int)$id .'/delayed_cancel', 'DELETE', []);
+        $responseArray = $this->getResponseArray($response);
+        if (!$this->isError()) {
+            $this->_data = $responseArray['subscription'];
+        } else {
+            $this->_data = array();
+        }
+
+        return $this;
+    }
+
+    /**
      * Reactivate the given subscription ID
      *
      * @param int $id
