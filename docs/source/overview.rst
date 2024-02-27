@@ -5,7 +5,7 @@ Overview
 Requirements
 ============
 
-#. PHP >= 5.5.0
+#. PHP >= 8.1.0
 
 .. _installation:
 
@@ -103,8 +103,8 @@ Guidelines
    Any code you submit will be released under that license. For substantial
    contributions, we may ask you to sign a `Contributor License Agreement (CLA) <https://github.com/chargely/chargify-sdk-php/blob/master/CLA.txt>`_.
 
-#. The SDK has a minimum PHP version requirement of PHP 5.5. Pull requests must
-   not require a PHP version greater than PHP 5.5 unless the feature is only
+#. The SDK has a minimum PHP version requirement of PHP 8.1. Pull requests must
+   not require a PHP version greater than PHP 8.1 unless the feature is only
    utilized conditionally.
 
 #. We follow all of the relevant PSR recommendations from the `PHP Framework Interop Group <http://php-fig.org>`_.

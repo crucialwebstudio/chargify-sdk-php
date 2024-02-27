@@ -1,4 +1,5 @@
 <?php
+namespace Test\Helpers;
 
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\MessageFormatter;

@@ -1,10 +1,14 @@
 <?php
+namespace Test\Crucial\Service\ChargifyV2;
+
+use PHPUnit\Framework\TestCase;
+use Test\Helpers\ClientV2Helper;
 
 /**
- * Class Crucial_Service_ChargifyV2_DirectTest
+ * Class DirectTest
  *
  */
-class Crucial_Service_ChargifyV2_DirectTest extends PHPUnit_Framework_TestCase
+class DirectTest extends TestCase
 {
     public function testAuthSuccess()
     {
@@ -152,34 +156,32 @@ class Crucial_Service_ChargifyV2_DirectTest extends PHPUnit_Framework_TestCase
         $dataField      = '<input type="hidden" name="secure[data]"      value="' . $direct->getDataStringEncoded() . '" />';
         $signatureField = '<input type="hidden" name="secure[signature]" value="' . $direct->getRequestSignature() . '" />';
 
-        $this->assertContains($apiIdField, $hiddenFields);
-        $this->assertContains($timestampField, $hiddenFields);
-        $this->assertContains($nonceField, $hiddenFields);
-        $this->assertContains($dataField, $hiddenFields);
-        $this->assertContains($signatureField, $hiddenFields);
+        $this->assertStringContainsStringIgnoringCase($apiIdField, $hiddenFields);
+        $this->assertStringContainsStringIgnoringCase($timestampField, $hiddenFields);
+        $this->assertStringContainsStringIgnoringCase($nonceField, $hiddenFields);
+        $this->assertStringContainsStringIgnoringCase($dataField, $hiddenFields);
+        $this->assertStringContainsStringIgnoringCase($signatureField, $hiddenFields);
     }
 
-    /**
-     * @expectedException \Crucial\Service\ChargifyV2\Exception\BadMethodCallException
-     */
     public function testSetRedirectAfterRequestSignatureThrowsException()
     {
         $chargify = ClientV2Helper::getInstance();
         $direct   = $chargify->direct();
 
         $signature = $direct->getRequestSignature();
+        
+        $this->expectException(\Crucial\Service\ChargifyV2\Exception\BadMethodCallException::class);
         $direct->setRedirect('http://example.local');
     }
 
-    /**
-     * @expectedException \Crucial\Service\ChargifyV2\Exception\BadMethodCallException
-     */
     public function testSetDataAfterRequestSignatureThrowsException()
     {
         $chargify = ClientV2Helper::getInstance();
         $direct   = $chargify->direct();
 
         $signature = $direct->getRequestSignature();
+
+        $this->expectException(\Crucial\Service\ChargifyV2\Exception\BadMethodCallException::class);
         $direct->setData([]);
     }
 

@@ -26,7 +26,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setFirstName($firstName)
+    public function setFirstName($firstName): Customer
     {
         $this->setParam('first_name', $firstName);
 
@@ -40,7 +40,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setLastName($lastName)
+    public function setLastName($lastName): Customer
     {
         $this->setParam('last_name', $lastName);
 
@@ -54,7 +54,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setEmail($email)
+    public function setEmail($email): Customer
     {
         $this->setParam('email', $email);
 
@@ -68,7 +68,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setOrganization($organization)
+    public function setOrganization($organization): Customer
     {
         $this->setParam('organization', $organization);
 
@@ -82,7 +82,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setPhone($phone)
+    public function setPhone($phone): Customer
     {
         $this->setParam('phone', $phone);
 
@@ -96,7 +96,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setAddress($address)
+    public function setAddress($address): Customer
     {
         $this->setParam('address', $address);
 
@@ -110,7 +110,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setAddress2($address)
+    public function setAddress2($address): Customer
     {
         $this->setParam('address_2', $address);
 
@@ -124,7 +124,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setCountry($country)
+    public function setCountry($country): Customer
     {
         $this->setParam('country', $country);
 
@@ -138,7 +138,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setState($state)
+    public function setState($state): Customer
     {
         $this->setParam('state', $state);
 
@@ -152,7 +152,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setCity($city)
+    public function setCity($city): Customer
     {
         $this->setParam('city', $city);
 
@@ -166,7 +166,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setZip($zip)
+    public function setZip($zip): Customer
     {
         $this->setParam('zip', $zip);
 
@@ -181,7 +181,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setReference($reference)
+    public function setReference($reference): Customer
     {
         $this->setParam('reference', $reference);
 
@@ -196,7 +196,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function setPage($page)
+    public function setPage($page): Customer
     {
         $this->setParam('page', $page);
 
@@ -221,7 +221,7 @@ class Customer extends AbstractEntity
      * @see Customer::setCountry()
      * @see Customer::setReference()
      */
-    public function create()
+    public function create(): Customer
     {
         $service       = $this->getService();
         $rawData       = $this->getRawData(array('customer' => $this->getParams()));
@@ -243,11 +243,11 @@ class Customer extends AbstractEntity
      * @return Customer
      * @see Customer::setPage()
      */
-    public function listCustomers()
+    public function listCustomers(): Customer
     {
         $service = $this->getService();
 
-        $response      = $service->request('customers', 'GET', NULL, $this->getParams());
+        $response      = $service->request('customers', 'GET', null, $this->getParams());
         $responseArray = $this->getResponseArray($response);
 
         if (!$this->isError()) {
@@ -266,7 +266,7 @@ class Customer extends AbstractEntity
      *
      * @return Customer
      */
-    public function readByChargifyId($id)
+    public function readByChargifyId($id): Customer
     {
         $service = $this->getService();
 
@@ -289,7 +289,7 @@ class Customer extends AbstractEntity
      * @return Customer
      * @see Customer::setReference()
      */
-    public function readByReference()
+    public function readByReference(): Customer
     {
         $service = $this->getService();
 
@@ -325,7 +325,7 @@ class Customer extends AbstractEntity
      * @see Customer::setCountry()
      * @see Customer::setReference()
      */
-    public function update($id)
+    public function update($id): Customer
     {
         $service = $this->getService();
 

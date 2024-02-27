@@ -19,18 +19,17 @@ namespace Crucial\Service\Chargify;
 
 class Stats extends AbstractEntity
 {
-
     /**
      * Get stats for a site
      *
      * @return Stats
      */
-    public function getStats()
+    public function getStats(): Stats
     {
         $service = $this->getService();
 
         // stats for a site
-        $response = $service->request('stats', 'GET', NULL, $this->getParams());
+        $response = $service->request('stats', 'GET', null, $this->getParams());
 
         $responseArray = $this->getResponseArray($response);
 

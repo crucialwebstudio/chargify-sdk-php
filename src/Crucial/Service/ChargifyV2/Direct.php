@@ -17,9 +17,9 @@
 
 namespace Crucial\Service\ChargifyV2;
 
-use Crucial\Service\ChargifyV2,
-    Crucial\Service\ChargifyV2\Direct\Utility\AuthRequest,
-    Crucial\Service\ChargifyV2\Exception\BadMethodCallException;
+use Crucial\Service\ChargifyV2;
+use Crucial\Service\ChargifyV2\Direct\Utility\AuthRequest;
+use Crucial\Service\ChargifyV2\Exception\BadMethodCallException;
 
 class Direct
 {
@@ -94,7 +94,7 @@ class Direct
     /**
      * @return AuthRequest
      */
-    public function getAuthTestUtility()
+    public function getAuthTestUtility(): AuthRequest
     {
         return $this->authTestUtility;
     }
@@ -104,7 +104,7 @@ class Direct
      *
      * @return ChargifyV2
      */
-    public function getService()
+    public function getService(): ChargifyV2
     {
         return $this->service;
     }
@@ -114,7 +114,7 @@ class Direct
      *
      * @return string
      */
-    public function getApiId()
+    public function getApiId(): string
     {
         return $this->getService()->getApiId();
     }
@@ -124,7 +124,7 @@ class Direct
      *
      * @param array $data
      */
-    public function setData($data = array())
+    public function setData(array $data = array())
     {
         /**
          * Since we base our signature off of the secure[data] parameter it cannot
@@ -143,7 +143,7 @@ class Direct
      *
      * @return array
      */
-    public function getData()
+    public function getData(): array
     {
         return $this->data;
     }
@@ -156,7 +156,7 @@ class Direct
      *
      * @return string
      */
-    public function getDataString()
+    public function getDataString(): string
     {
         // percent encoded
         $string = http_build_query($this->data);
@@ -170,7 +170,7 @@ class Direct
      *
      * @return string
      */
-    public function getDataStringEncoded()
+    public function getDataStringEncoded(): string
     {
         // percent encoded
         $string = http_build_query($this->data, '', '&amp;');
@@ -220,7 +220,7 @@ class Direct
      *
      * @return string
      */
-    protected function generateNonce()
+    protected function generateNonce(): string
     {
         // generate a random string
         $bits   = 256;
@@ -239,7 +239,7 @@ class Direct
      *
      * @return string
      */
-    public function getRedirect()
+    public function getRedirect(): string
     {
         return $this->redirect;
     }
@@ -249,7 +249,7 @@ class Direct
      *
      * @return int
      */
-    public function getTimeStamp()
+    public function getTimeStamp(): int
     {
         return $this->timeStamp;
     }
@@ -259,7 +259,7 @@ class Direct
      *
      * @return string
      */
-    public function getNonce()
+    public function getNonce(): string
     {
         return $this->nonce;
     }
@@ -271,10 +271,9 @@ class Direct
      *
      * @return string
      */
-    public function getRequestSignature()
+    public function getRequestSignature(): string
     {
         if (empty($this->requestSignature)) {
-
             $string = $this->getApiId()
                 . $this->getTimeStamp()
                 . $this->getNonce()
@@ -302,7 +301,7 @@ class Direct
      * @return string
      * @see isValidResponseSignature()
      */
-    public function getResponseSignature($apiId, $timestamp, $nonce, $statusCode, $resultCode, $callId)
+    public function getResponseSignature($apiId, $timestamp, $nonce, $statusCode, $resultCode, $callId): string
     {
         $string = $apiId
             . $timestamp
@@ -332,7 +331,7 @@ class Direct
      * @return bool
      * @see getResponseSignature()
      */
-    public function isValidResponseSignature($signature, $apiId, $timestamp, $nonce, $statusCode, $resultCode, $callId)
+    public function isValidResponseSignature($signature, $apiId, $timestamp, $nonce, $statusCode, $resultCode, $callId): bool
     {
         return ($signature == $this->getResponseSignature($apiId, $timestamp, $nonce, $statusCode, $resultCode, $callId));
     }
@@ -342,7 +341,7 @@ class Direct
      *
      * @return string
      */
-    public function getSignupAction()
+    public function getSignupAction(): string
     {
         return trim($this->getService()->getBaseUrl(), '/') . '/signups';
     }
@@ -354,7 +353,7 @@ class Direct
      *
      * @return string
      */
-    public function getCardUpdateAction($subscriptionId)
+    public function getCardUpdateAction($subscriptionId): string
     {
         return trim($this->getService()->getBaseUrl(), '/') . '/subscriptions/' . (string)$subscriptionId . '/card_update';
     }
@@ -364,7 +363,7 @@ class Direct
      *
      * @return string
      */
-    public function getHiddenFields()
+    public function getHiddenFields(): string
     {
         $apiId     = '<input type="hidden" name="secure[api_id]"    value="' . $this->getApiId() . '" />';
         $timestamp = '<input type="hidden" name="secure[timestamp]" value="' . $this->getTimeStamp() . '" />';
@@ -378,9 +377,9 @@ class Direct
     /**
      * Check if Chargify Direct credentials are correct
      *
-     * @return boolean
+     * @return bool
      */
-    public function checkAuth()
+    public function checkAuth(): bool
     {
         // set a fake redirect URL. Chargify will 500 on us if we don't have a redirect URL
         $this->setRedirect('http://localhost');

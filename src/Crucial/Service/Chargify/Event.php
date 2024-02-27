@@ -28,7 +28,7 @@ class Event extends AbstractEntity
      *
      * @return Event
      */
-    public function setPagination($page, $perPage)
+    public function setPagination($page, $perPage): Event
     {
         $this->setParam('page', $page);
         $this->setParam('per_page', $perPage);
@@ -44,7 +44,7 @@ class Event extends AbstractEntity
      *
      * @return Event
      */
-    public function setSinceId($sinceId)
+    public function setSinceId($sinceId): Event
     {
         $this->setParam('since_id', $sinceId);
 
@@ -59,7 +59,7 @@ class Event extends AbstractEntity
      *
      * @return Event
      */
-    public function setMaxId($maxId)
+    public function setMaxId($maxId): Event
     {
         $this->setParam('max_id', $maxId);
 
@@ -75,7 +75,7 @@ class Event extends AbstractEntity
      *
      * @return Event
      */
-    public function setDirection($direction)
+    public function setDirection($direction): Event
     {
         $this->setParam('direction', $direction);
 
@@ -91,12 +91,12 @@ class Event extends AbstractEntity
      * @see Event::setMaxId()
      * @see Event::setDirection()
      */
-    public function forSite()
+    public function forSite(): Event
     {
         $service = $this->getService();
 
         // events for a site
-        $response = $service->request('events', 'GET', NULL, $this->getParams());
+        $response = $service->request('events', 'GET', null, $this->getParams());
 
         $responseArray = $this->getResponseArray($response);
 
@@ -120,12 +120,12 @@ class Event extends AbstractEntity
      * @see Event::setMaxId()
      * @see Event::setDirection()
      */
-    public function forSubscription($subscriptionId)
+    public function forSubscription($subscriptionId): Event
     {
         $service = $this->getService();
 
         // events for a subscription
-        $response = $service->request('subscriptions/' . $subscriptionId . '/events', 'GET', NULL, $this->getParams());
+        $response = $service->request('subscriptions/' . $subscriptionId . '/events', 'GET', null, $this->getParams());
 
         $responseArray = $this->getResponseArray($response);
 

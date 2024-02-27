@@ -21,5 +21,4 @@ use BadMethodCallException as BaseBadMethodCallException;
 
 class BadMethodCallException extends BaseBadMethodCallException
 {
-
 }

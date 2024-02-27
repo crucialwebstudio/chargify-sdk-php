@@ -26,7 +26,7 @@ class Statement extends AbstractEntity
      *
      * @return Statement
      */
-    public function setPage($page)
+    public function setPage($page): Statement
     {
         $this->setParam('page', $page);
 
@@ -41,12 +41,12 @@ class Statement extends AbstractEntity
      * @return Statement
      * @see Statement::setPage()
      */
-    public function listStatements($subscriptionId)
+    public function listStatements($subscriptionId): Statement
     {
         $service = $this->getService();
 
         // statements for a subscription
-        $response = $service->request('subscriptions/' . (int)$subscriptionId . '/statements', 'GET', NULL, $this->getParams());
+        $response = $service->request('subscriptions/' . (int)$subscriptionId . '/statements', 'GET', null, $this->getParams());
 
         $responseArray = $this->getResponseArray($response);
 
@@ -66,7 +66,7 @@ class Statement extends AbstractEntity
      *
      * @return Statement
      */
-    public function read($statementId)
+    public function read($statementId): Statement
     {
         $service = $this->getService();
 

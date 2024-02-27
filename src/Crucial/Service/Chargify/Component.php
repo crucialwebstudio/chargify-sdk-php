@@ -26,7 +26,7 @@ class Component extends AbstractEntity
      *
      * @return Component
      */
-    public function setAllocatedQuantity($quantity)
+    public function setAllocatedQuantity($quantity): Component
     {
         $this->setParam('allocated_quantity', $quantity);
 
@@ -41,7 +41,7 @@ class Component extends AbstractEntity
      *
      * @return Component
      */
-    public function setUsageQuantity($quantity)
+    public function setUsageQuantity($quantity): Component
     {
         $this->setParam('quantity', $quantity);
 
@@ -55,7 +55,7 @@ class Component extends AbstractEntity
      *
      * @return Component
      */
-    public function setMemo($memo)
+    public function setMemo($memo): Component
     {
         $this->setParam('memo', $memo);
 
@@ -69,7 +69,7 @@ class Component extends AbstractEntity
      *
      * @return Component
      */
-    public function setName($name)
+    public function setName($name): Component
     {
         $this->setParam('name', $name);
 
@@ -84,7 +84,7 @@ class Component extends AbstractEntity
      *
      * @return Component
      */
-    public function setUnitName($name)
+    public function setUnitName($name): Component
     {
         $this->setParam('unit_name', $name);
 
@@ -99,7 +99,7 @@ class Component extends AbstractEntity
      *
      * @return Component
      */
-    public function setUnitPrice($price)
+    public function setUnitPrice($price): Component
     {
         $this->setParam('unit_price', $price);
 
@@ -120,7 +120,7 @@ class Component extends AbstractEntity
      * @return Component
      * @link http://docs.chargify.com/product-components
      */
-    public function setPricingScheme($scheme)
+    public function setPricingScheme($scheme): Component
     {
         $this->setParam('pricing_scheme', $scheme);
 
@@ -147,7 +147,7 @@ class Component extends AbstractEntity
      * @return Component
      * @link http://docs.chargify.com/product-components
      */
-    public function setPrices($prices)
+    public function setPrices($prices): Component
     {
         $this->setParam('prices', $prices);
 
@@ -161,7 +161,7 @@ class Component extends AbstractEntity
      *
      * @return Component
      */
-    public function listSubscription($id)
+    public function listSubscription($id): Component
     {
         $service = $this->getService();
 
@@ -185,7 +185,7 @@ class Component extends AbstractEntity
      *
      * @return Component
      */
-    public function readSubscription($subscriptionId, $componentId)
+    public function readSubscription($subscriptionId, $componentId): Component
     {
         $service = $this->getService();
 
@@ -210,7 +210,7 @@ class Component extends AbstractEntity
      * @return Component
      * @see Component::setAllocatedQuantity()
      */
-    public function setQuantityAllocation($subscriptionId, $componentId)
+    public function setQuantityAllocation($subscriptionId, $componentId): Component
     {
         $service       = $this->getService();
         $rawData       = $this->getRawData(array('component' => $this->_params));
@@ -236,7 +236,7 @@ class Component extends AbstractEntity
      * @see Component::setUsageQuantity()
      * @see Component::setMemo()
      */
-    public function createQuantityAllocation($subscriptionId, $componentId)
+    public function createQuantityAllocation($subscriptionId, $componentId): Component
     {
         $service       = $this->getService();
         $rawData       = $this->getRawData(array('allocation' => $this->_params));
@@ -262,7 +262,7 @@ class Component extends AbstractEntity
      * @see Component::setUsageQuantity()
      * @see Component::setUsageMemo()
      */
-    public function createUsage($subscriptionId, $componentId)
+    public function createUsage($subscriptionId, $componentId): Component
     {
         $service  = $this->getService();
         $rawData  = $this->getRawData(array('usage' => $this->_params));
@@ -286,7 +286,7 @@ class Component extends AbstractEntity
      *
      * @return Component
      */
-    public function listProductFamily($productFamilyId)
+    public function listProductFamily($productFamilyId): Component
     {
         $service = $this->getService();
 
@@ -310,7 +310,7 @@ class Component extends AbstractEntity
      *
      * @return Component
      */
-    public function readProductFamily($productFamilyId, $componentId)
+    public function readProductFamily($productFamilyId, $componentId): Component
     {
         $service = $this->getService();
 
@@ -342,7 +342,7 @@ class Component extends AbstractEntity
      * @see Component::setPricingScheme()
      * @see Component::setPrices()
      */
-    public function createComponent($productFamilyId, $componentType)
+    public function createComponent($productFamilyId, $componentType): Component
     {
         $service = $this->getService();
 
@@ -381,7 +381,7 @@ class Component extends AbstractEntity
      *
      * @return array
      */
-    protected function _normalizeResponseArray($responseArray)
+    protected function _normalizeResponseArray($responseArray): array
     {
         $return = array();
         foreach ($responseArray as $prod) {
