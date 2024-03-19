@@ -26,7 +26,7 @@ class Refund extends AbstractEntity
      *
      * @return Refund
      */
-    public function setPaymentId($paymentId)
+    public function setPaymentId($paymentId): Refund
     {
         $this->setParam('payment_id', $paymentId);
 
@@ -43,7 +43,7 @@ class Refund extends AbstractEntity
      *
      * @return Refund
      */
-    public function setAmount($amount)
+    public function setAmount($amount): Refund
     {
         $this->setParam('amount', $amount);
 
@@ -62,7 +62,7 @@ class Refund extends AbstractEntity
      *
      * @return Refund
      */
-    public function setAmountInCents($amountInCents)
+    public function setAmountInCents($amountInCents): Refund
     {
         $this->setParam('amount_in_cents', $amountInCents);
 
@@ -77,7 +77,7 @@ class Refund extends AbstractEntity
      *
      * @return Refund
      */
-    public function setMemo($memo)
+    public function setMemo($memo): Refund
     {
         $this->setParam('memo', $memo);
 
@@ -100,7 +100,7 @@ class Refund extends AbstractEntity
      * @see Refund::setMemo()
      * @see Refund::setPaymentId()
      */
-    public function create($subscriptionId)
+    public function create($subscriptionId): Refund
     {
         $service       = $this->getService();
         $rawData       = $this->getRawData(array('refund' => $this->getParams()));

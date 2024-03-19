@@ -1,10 +1,15 @@
 <?php
 
+namespace Test\Crucial\Service\Chargify;
+
+use PHPUnit\Framework\TestCase;
+use Test\Helpers\ClientHelper;
+
 /**
- * Class Crucial_Service_Chargify_ComponentTest
+ * Class ComponentTest
  *
  */
-class Crucial_Service_Chargify_ComponentTest extends PHPUnit_Framework_TestCase
+class ComponentTest extends TestCase
 {
     public function testCreateMeteredStairstepSuccess()
     {

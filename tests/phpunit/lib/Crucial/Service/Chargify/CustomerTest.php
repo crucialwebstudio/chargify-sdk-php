@@ -1,10 +1,15 @@
 <?php
 
+namespace Test\Crucial\Service\Chargify;
+
+use PHPUnit\Framework\TestCase;
+use Test\Helpers\ClientHelper;
+
 /**
- * Class Crucial_Service_Chargify_CustomerTest
+ * Class CustomerTest
  *
  */
-class Crucial_Service_Chargify_CustomerTest extends PHPUnit_Framework_TestCase
+class CustomerTest extends TestCase
 {
 
     public function testReadByReference()

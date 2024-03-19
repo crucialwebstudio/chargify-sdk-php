@@ -27,6 +27,7 @@ use Crucial\Service\Chargify;
 use Crucial\Service\ChargifyV2\Call;
 use Crucial\Service\ChargifyV2\Direct;
 use Crucial\Service\ChargifyV2\Exception\BadMethodCallException;
+use Crucial\Service\ChargifyV2\Exception\InvalidArgumentException;
 
 class ChargifyV2
 {
@@ -94,10 +95,19 @@ class ChargifyV2
         $this->apiPassword = $config['api_password'];
         $this->apiSecret   = $config['api_secret'];
 
+        $httpHandler = isset($config['GuzzleHttp\Client']['handler']) ? $config['GuzzleHttp\Client']['handler'] : null;
+
+        if (empty($httpHandler)) {
+            $httpHandler = HandlerStack::create();
+        }
+        if (! $httpHandler instanceof HandlerStack) {
+            throw new InvalidArgumentException("config['GuzzleHttp\Client']['handler'] is not an instance of ".HandlerStack::class);
+        }
+
         // set up http client
         $this->httpClient = new Client([
             'base_uri' => $this->baseUrl,
-            'handler'         => HandlerStack::create(),
+            'handler'         => $httpHandler,
             'timeout'         => 10,
             'allow_redirects' => false,
             'auth'            => [$this->apiId, $this->apiPassword],
@@ -204,7 +214,7 @@ class ChargifyV2
         }
 
         if (!empty($rawData)) {
-            $options['body'] = Psr7\stream_for($rawData);
+            $options['body'] = Psr7\Utils::streamFor($rawData);
         }
 
         try {

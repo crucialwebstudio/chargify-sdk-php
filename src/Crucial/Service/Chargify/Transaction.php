@@ -37,7 +37,7 @@ class Transaction extends AbstractEntity
      *
      * @return Transaction
      */
-    public function setKinds($kinds)
+    public function setKinds(array $kinds): Transaction
     {
         $this->setParam('kinds', $kinds);
 
@@ -51,7 +51,7 @@ class Transaction extends AbstractEntity
      *
      * @return Transaction
      */
-    public function setSinceId($sinceId)
+    public function setSinceId(int $sinceId): Transaction
     {
         $this->setParam('since_id', $sinceId);
 
@@ -65,7 +65,7 @@ class Transaction extends AbstractEntity
      *
      * @return Transaction
      */
-    public function setMaxId($maxId)
+    public function setMaxId(int $maxId): Transaction
     {
         $this->setParam('max_id', $maxId);
 
@@ -80,7 +80,7 @@ class Transaction extends AbstractEntity
      *
      * @return Transaction
      */
-    public function setSinceDate($sinceDate)
+    public function setSinceDate(string $sinceDate): Transaction
     {
         $this->setParam('since_date', $sinceDate);
 
@@ -94,7 +94,7 @@ class Transaction extends AbstractEntity
      *
      * @return Transaction
      */
-    public function setUntilDate($untilDate)
+    public function setUntilDate(string $untilDate): Transaction
     {
         $this->setParam('until_date', $untilDate);
 
@@ -110,7 +110,7 @@ class Transaction extends AbstractEntity
      *
      * @return Transaction
      */
-    public function setPagination($page, $perPage)
+    public function setPagination(int $page, int $perPage): Transaction
     {
         $this->setParam('page', $page);
         $this->setParam('per_page', $perPage);
@@ -131,12 +131,12 @@ class Transaction extends AbstractEntity
      * @see Transaction::setMaxId()
      * @see Transaction::setSinceId()
      */
-    public function listBySubscription($subscriptionId)
+    public function listBySubscription(int $subscriptionId): Transaction
     {
         $service = $this->getService();
 
         // transactions for a subscription
-        $response = $service->request('subscriptions/' . $subscriptionId . '/transactions', 'GET', NULL, $this->getParams());
+        $response = $service->request('subscriptions/' . $subscriptionId . '/transactions', 'GET', null, $this->getParams());
 
         $responseArray = $this->getResponseArray($response);
 
@@ -160,12 +160,12 @@ class Transaction extends AbstractEntity
      * @see Transaction::setMaxId()
      * @see Transaction::setSinceId()
      */
-    public function listBySite()
+    public function listBySite(): Transaction
     {
         $service = $this->getService();
 
         // transactions for a subscription
-        $response = $service->request('transactions', 'GET', NULL, $this->getParams());
+        $response = $service->request('transactions', 'GET', null, $this->getParams());
 
         $responseArray = $this->getResponseArray($response);
 

@@ -19,6 +19,7 @@ namespace Crucial\Service\ChargifyV2;
 
 use GuzzleHttp\Psr7\Response;
 use Crucial\Service\ChargifyV2;
+use stdClass;
 
 abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
 {
@@ -65,7 +66,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return ChargifyV2
      */
-    public function getService()
+    public function getService(): ChargifyV2
     {
         return $this->_service;
     }
@@ -78,7 +79,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return AbstractEntity
      */
-    public function setParam($param, $value)
+    public function setParam(string $param, mixed $value): AbstractEntity
     {
         $this->_params[$param] = $value;
 
@@ -92,9 +93,9 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return string|array
      */
-    public function getParam($paramName)
+    public function getParam(string $paramName): string|array
     {
-        return !empty($this->_params[$paramName]) ? $this->_params[$paramName] : NULL;
+        return !empty($this->_params[$paramName]) ? $this->_params[$paramName] : null;
     }
 
     /**
@@ -102,7 +103,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return array
      */
-    public function getParams()
+    public function getParams(): array
     {
         return $this->_params;
     }
@@ -114,7 +115,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return \stdClass
      */
-    public function arrayToObject($array)
+    public function arrayToObject(array $array): stdClass
     {
         $object = new \stdClass();
         foreach ($array as $k => $v) {
@@ -135,7 +136,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return string
      */
-    public function getRawData($array)
+    public function getRawData(array $array): string
     {
         return json_encode($array);
     }
@@ -145,7 +146,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return bool
      */
-    public function isError()
+    public function isError(): bool
     {
         return !empty($this->errors);
     }
@@ -156,7 +157,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return array
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }
@@ -169,7 +170,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return array
      */
-    public function getResponseArray($response)
+    public function getResponseArray(Response|false $response): array
     {
         $return = [];
 
@@ -239,7 +240,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->_data[] = $value;
@@ -255,7 +256,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->_data[$offset]);
     }
@@ -265,7 +266,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->_data[$offset]);
     }
@@ -277,7 +278,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return bool
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): bool
     {
         return isset($this->_data[$offset]) ? $this->_data[$offset] : null;
     }
@@ -292,7 +293,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return void
      */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->_data);
     }
@@ -302,7 +303,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return mixed
      */
-    public function current()
+    public function current(): mixed
     {
         return current($this->_data);
     }
@@ -312,7 +313,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return mixed
      */
-    public function key()
+    public function key(): mixed
     {
         return key($this->_data);
     }
@@ -320,11 +321,11 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
     /**
      * For \Iterator interface
      *
-     * @return mixed
+     * @return void
      */
-    public function next()
+    public function next(): void
     {
-        return next($this->_data);
+        next($this->_data);
     }
 
     /**
@@ -332,7 +333,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->current() !== false;
     }
@@ -346,7 +347,7 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->_data);
     }

@@ -27,7 +27,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setProductHandle($handle)
+    public function setProductHandle(string $handle): Subscription
     {
         $this->setParam('product_handle', $handle);
 
@@ -41,7 +41,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setProductId($id)
+    public function setProductId(string|int $id): Subscription
     {
         $this->setParam('product_id', $id);
 
@@ -56,7 +56,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setCustomerId($idFromChargify)
+    public function setCustomerId(string|int $idFromChargify): Subscription
     {
         $this->setParam('customer_id', $idFromChargify);
 
@@ -72,7 +72,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setCustomerReference($idFromYourApp)
+    public function setCustomerReference(string|int $idFromYourApp): Subscription
     {
         $this->setParam('customer_reference', $idFromYourApp);
 
@@ -93,7 +93,7 @@ class Subscription extends AbstractEntity
      * @return Subscription
      * @todo Unit test this
      */
-    public function setComponents($components)
+    public function setComponents(array $components): Subscription
     {
         $this->setParam('components', $components);
 
@@ -130,7 +130,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setCustomerAttributes($attributes)
+    public function setCustomerAttributes(array $attributes): Subscription
     {
         $this->setParam('customer_attributes', $attributes);
 
@@ -228,7 +228,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setPaymentProfileAttributes($attributes)
+    public function setPaymentProfileAttributes(array $attributes): Subscription
     {
         $this->setParam('payment_profile_attributes', $attributes);
 
@@ -243,7 +243,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setCancellationMessage($message)
+    public function setCancellationMessage(string $message): Subscription
     {
         $this->setParam('cancellation_message', $message);
 
@@ -258,7 +258,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setCancelAtEndOfPeriod($bool)
+    public function setCancelAtEndOfPeriod(bool $bool): Subscription
     {
         $this->setParam('cancel_at_end_of_period', intval($bool));
 
@@ -284,7 +284,7 @@ class Subscription extends AbstractEntity
      *
      * @link https://docs.chargify.com/api-subscriptions#date-format
      */
-    public function setNextbillingAt($nextBilling)
+    public function setNextbillingAt(string $nextBilling): Subscription
     {
         $this->setParam('next_billing_at', $nextBilling);
 
@@ -299,7 +299,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setIncludeInitialCharge($initialCharge = 0)
+    public function setIncludeInitialCharge(int $initialCharge = 0): Subscription
     {
         $this->setParam('include_initial_charge', $initialCharge);
 
@@ -314,7 +314,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setIncludeTrial($includeTrial = 0)
+    public function setIncludeTrial(int $includeTrial = 0): Subscription
     {
         $this->setParam('include_trial', $includeTrial);
 
@@ -330,7 +330,7 @@ class Subscription extends AbstractEntity
      * @link http://docs.chargify.com/api-coupons
      * @todo Unit test this
      */
-    public function setCouponCode($coupon_code)
+    public function setCouponCode(int $coupon_code): Subscription
     {
         $this->setParam('coupon_code', $coupon_code);
 
@@ -347,7 +347,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setPage($page)
+    public function setPage(int $page): Subscription
     {
         $this->setParam('page', $page);
 
@@ -363,7 +363,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function setPerPage($perPage)
+    public function setPerPage(int $perPage): Subscription
     {
         $this->setParam('per_page', $perPage);
 
@@ -377,7 +377,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function read($subscriptionId)
+    public function read(int $subscriptionId): Subscription
     {
         $service = $this->getService();
         $response = $service->request('subscriptions/' . (int)$subscriptionId, 'GET');
@@ -407,7 +407,7 @@ class Subscription extends AbstractEntity
      * @link http://docs.chargify.com/api-subscriptions
      * @link http://docs.chargify.com/api-coupons
      */
-    public function create()
+    public function create(): Subscription
     {
         $service = $this->getService();
         $rawData = $this->getRawData(array('subscription' => $this->_params));
@@ -431,7 +431,7 @@ class Subscription extends AbstractEntity
      * @return Subscription
      * @see Subscription::setCancellationMessage()
      */
-    public function cancelImmediately($id)
+    public function cancelImmediately(int $id): Subscription
     {
         $service = $this->getService();
         $rawData = !empty($this->_params)
@@ -459,7 +459,7 @@ class Subscription extends AbstractEntity
      * @see Subscription::setCancelAtEndOfPeriod()
      * @see Subscription::setCancellationMessage()
      */
-    public function cancelDelayed($id)
+    public function cancelDelayed(int $id): Subscription
     {
         $this->setCancelAtEndOfPeriod(true);
 
@@ -485,7 +485,7 @@ class Subscription extends AbstractEntity
      * @return Subscription
      * @see Subscription::setIncludeTrial()
      */
-    public function reactivate($id)
+    public function reactivate(int $id): Subscription
     {
         $service = $this->getService();
 
@@ -532,7 +532,7 @@ class Subscription extends AbstractEntity
      *
      * @return Subscription
      */
-    public function resetBalance($subscriptionId)
+    public function resetBalance(int $subscriptionId): Subscription
     {
         $service = $this->getService();
         $response = $service->request('subscriptions/' . (int)$subscriptionId . '/reset_balance', 'GET');
@@ -557,7 +557,7 @@ class Subscription extends AbstractEntity
      * @see Subscription::setCustomerAttributes()
      * @see Subscription::setPaymentProfileAttributes()
      */
-    public function update($id)
+    public function update(int $id): Subscription
     {
         $service = $this->getService();
         $rawData = $this->getRawData(array('subscription' => $this->_params));
@@ -595,7 +595,7 @@ class Subscription extends AbstractEntity
      * @link http://docs.chargify.com/api-migrations
      * @todo ?? should this be moved to Crucial_Service_Chargify_Migration
      */
-    public function migrate($subscriptionId)
+    public function migrate(int $subscriptionId): Subscription
     {
         $service = $this->getService();
         $rawData = $this->getRawData(array('migration' => $this->_params));
@@ -620,10 +620,10 @@ class Subscription extends AbstractEntity
      * @see Subscription::setPage()
      * @see Subscription::setPerPage()
      */
-    public function listSubscriptions()
+    public function listSubscriptions(): Subscription
     {
         $service = $this->getService();
-        $response = $service->request('subscriptions', 'GET', NULL, $this->_params);
+        $response = $service->request('subscriptions', 'GET', null, $this->_params);
         $responseArray = $this->getResponseArray($response);
 
         if (!$this->isError()) {
@@ -643,7 +643,7 @@ class Subscription extends AbstractEntity
      * @return Subscription
      * @see Subscription::setCustomerId()
      */
-    public function listByCustomer($customerId)
+    public function listByCustomer(int $customerId): Subscription
     {
         $service = $this->getService();
         $response = $service->request('customers/' . (int)$customerId . '/subscriptions', 'GET');

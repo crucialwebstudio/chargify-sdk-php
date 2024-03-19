@@ -26,7 +26,7 @@ class Webhook extends AbstractEntity
      *
      * @return Webhook
      */
-    public function setOrder($order)
+    public function setOrder(string $order): Webhook
     {
         $this->setParam('order', $order);
 
@@ -38,7 +38,7 @@ class Webhook extends AbstractEntity
      *
      * @return Webhook
      */
-    public function setSinceDate($sinceDate)
+    public function setSinceDate(string $sinceDate): Webhook
     {
         $this->setParam('since_date', $sinceDate);
 
@@ -50,7 +50,7 @@ class Webhook extends AbstractEntity
      *
      * @return Webhook
      */
-    public function setSinceId($sinceId)
+    public function setSinceId(int $sinceId): Webhook
     {
         $this->setParam('since_id', $sinceId);
 
@@ -62,7 +62,7 @@ class Webhook extends AbstractEntity
      *
      * @return Webhook
      */
-    public function setUntilDate($untilDate)
+    public function setUntilDate(string $untilDate): Webhook
     {
         $this->setParam('until_date', $untilDate);
 
@@ -75,7 +75,7 @@ class Webhook extends AbstractEntity
      *
      * @return Webhook
      */
-    public function setPaging($page, $perPage)
+    public function setPaging(int $page, int $perPage): Webhook
     {
         $this->setParam('page', $page);
         $this->setParam('per_page', $perPage);
@@ -83,12 +83,12 @@ class Webhook extends AbstractEntity
         return $this;
     }
 
-    public function listWebhooks()
+    public function listWebhooks(): Webhook
     {
         $service = $this->getService();
 
         // webhooks for a site
-        $response = $service->request('webhooks', 'GET', NULL, $this->getParams());
+        $response = $service->request('webhooks', 'GET', null, $this->getParams());
 
         $responseArray = $this->getResponseArray($response);
 

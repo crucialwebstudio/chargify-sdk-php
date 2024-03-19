@@ -1,9 +1,10 @@
 <?php
+namespace Test\Helpers;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Psr7;
+use GuzzleHttp\MessageFormatter;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Crucial\Service\Chargify;
@@ -31,11 +32,9 @@ class ClientHelper
                 break;
         }
 
-        $chargify = new Chargify($config);
-
         if (!empty($mockResponseFile)) {
             $mock     = new MockHandler([
-                Psr7\parse_response(MockResponse::read($mockResponseFile))
+                Psr7\Message::parseResponse(MockResponse::read($mockResponseFile))
             ]);
             $handler  = HandlerStack::create($mock);
 
@@ -47,9 +46,14 @@ class ClientHelper
 //            $middleware->setFormatter(new MessageFormatter($template));
 //
 //            $handler->push($middleware);
-
-            $chargify->getHttpClient()->getConfig('handler')->setHandler($handler);
+            // Override default GuzzleHttp Client's handler by a mock
+            $handler  = HandlerStack::create($mock);
+            $config['GuzzleHttp\Client'] = [
+                'handler' => $handler
+            ];
         }
+        
+        $chargify = new Chargify($config);
 
         return $chargify;
     }

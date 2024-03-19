@@ -1,9 +1,14 @@
 <?php
+namespace Test\Crucial\Service\ChargifyV2;
+
+use PHPUnit\Framework\TestCase;
+use Test\Helpers\ClientV2Helper;
+
 /**
- * Class Crucial_Service_ChargifyV2_CallTest
+ * Class CallTest
  *
  */
-class Crucial_Service_ChargifyV2_CallTest extends PHPUnit_Framework_TestCase
+class CallTest extends TestCase
 {
     public function testReadSuccess()
     {
