@@ -31,7 +31,7 @@ class ClientV2Helper
         if (!empty($mockResponseFile)) {
             $mock     = new MockHandler([
                 Psr7\Message::parseResponse(MockResponse::read($mockResponseFile))
-            ]);            
+            ]);
             
             // Override default GuzzleHttp Client's handler by a mock
             $handler  = HandlerStack::create($mock);

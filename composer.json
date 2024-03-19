@@ -37,8 +37,8 @@
     "autoload": {
         "psr-4": {
             "Crucial\\Service\\": "src/Crucial/Service",
-			"Test\\Helpers\\": "tests/phpunit/helpers",
-			"Test\\Crucial\\": "tests/phpunit/lib/Crucial"
+            "Test\\Helpers\\": "tests/phpunit/helpers",
+            "Test\\Crucial\\": "tests/phpunit/lib/Crucial"
         }
     }
 }
