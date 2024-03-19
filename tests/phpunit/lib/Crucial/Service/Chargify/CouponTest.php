@@ -1,10 +1,15 @@
 <?php
 
+namespace Test\Crucial\Service\Chargify;
+
+use PHPUnit\Framework\TestCase;
+use Test\Helpers\ClientHelper;
+
 /**
- * Class Crucial_Service_Chargify_CouponTest
+ * Class CouponTest
  *
  */
-class Crucial_Service_Chargify_CouponTest extends PHPUnit_Framework_TestCase
+class CouponTest extends TestCase
 {
     public function testFindCouponSuccess()
     {

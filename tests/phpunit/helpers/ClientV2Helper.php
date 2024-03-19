@@ -1,4 +1,5 @@
 <?php
+namespace Test\Helpers;
 
 use Crucial\Service\ChargifyV2;
 use GuzzleHttp\Handler\MockHandler;
@@ -27,15 +28,19 @@ class ClientV2Helper
                 break;
         }
 
-        $chargify = new ChargifyV2($config);
-
         if (!empty($mockResponseFile)) {
             $mock     = new MockHandler([
-                Psr7\parse_response(MockResponse::read($mockResponseFile))
+                Psr7\Message::parseResponse(MockResponse::read($mockResponseFile))
             ]);
+            
+            // Override default GuzzleHttp Client's handler by a mock
             $handler  = HandlerStack::create($mock);
-            $chargify->getHttpClient()->getConfig('handler')->setHandler($handler);
+            $config['GuzzleHttp\Client'] = [
+                'handler' => $handler
+            ];
         }
+
+        $chargify = new ChargifyV2($config);
 
         return $chargify;
     }

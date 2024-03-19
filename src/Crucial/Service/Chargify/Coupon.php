@@ -26,7 +26,7 @@ class Coupon extends AbstractEntity
      *
      * @return Coupon
      */
-    public function setCode($code)
+    public function setCode($code): Coupon
     {
         $this->setParam('code', $code);
 
@@ -43,7 +43,7 @@ class Coupon extends AbstractEntity
      *
      * @return Coupon
      */
-    public function show($productFamilyId, $couponId)
+    public function show($productFamilyId, $couponId): Coupon
     {
         $service = $this->getService();
 
@@ -71,10 +71,10 @@ class Coupon extends AbstractEntity
      * @see  Coupon::setCode()
      * @todo Unit test should return empty array if coupon is not found (404)
      */
-    public function find($productFamilyId)
+    public function find($productFamilyId): Coupon
     {
         $service       = $this->getService();
-        $response      = $service->request('product_families/' . $productFamilyId . '/coupons/find', 'GET', NULL, $this->_params);
+        $response      = $service->request('product_families/' . $productFamilyId . '/coupons/find', 'GET', null, $this->_params);
         $responseArray = $this->getResponseArray($response);
 
         // status code must be 200, otherwise the code in $this->setCode() was not found

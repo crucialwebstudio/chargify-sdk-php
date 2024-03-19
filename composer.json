@@ -24,17 +24,21 @@
         "issues": "https://github.com/chargely/chargify-sdk-php/issues"
     },
     "require": {
-        "php": ">=5.5.0",
-        "guzzlehttp/guzzle": "^6.0"
+        "php": ">=8.1.0",
+        "guzzlehttp/guzzle": "^7.8.0",
+        "guzzlehttp/psr7": "^2.5.1",
+        "guzzlehttp/promises": "^2.0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.*",
-        "fabpot/php-cs-fixer": "1.11",
-        "monolog/monolog": "1.17.2"
+        "phpunit/phpunit": "8.5.*",
+        "monolog/monolog": "^1.21",
+        "friendsofphp/php-cs-fixer": "^3.9"
     },
     "autoload": {
         "psr-4": {
-            "Crucial\\Service\\": "src/Crucial/Service"
+            "Crucial\\Service\\": "src/Crucial/Service",
+            "Test\\Helpers\\": "tests/phpunit/helpers",
+            "Test\\Crucial\\": "tests/phpunit/lib/Crucial"
         }
     }
 }

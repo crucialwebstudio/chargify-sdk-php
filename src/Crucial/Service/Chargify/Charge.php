@@ -19,7 +19,6 @@ namespace Crucial\Service\Chargify;
 
 class Charge extends AbstractEntity
 {
-
     /**
      * (either 'amount' or 'amount_in_cents' is required) If you use this
      * parameter, you should pass a dollar amount represented as a string. For
@@ -29,7 +28,7 @@ class Charge extends AbstractEntity
      *
      * @return Charge
      */
-    public function setAmount($amount)
+    public function setAmount($amount): Charge
     {
         $this->setParam('amount', $amount);
 
@@ -47,7 +46,7 @@ class Charge extends AbstractEntity
      *
      * @return Charge
      */
-    public function setAmountInCents($amountInCents)
+    public function setAmountInCents($amountInCents): Charge
     {
         $this->setParam('amount_in_cents', $amountInCents);
 
@@ -62,7 +61,7 @@ class Charge extends AbstractEntity
      *
      * @return Charge
      */
-    public function setMemo($memo)
+    public function setMemo($memo): Charge
     {
         $this->setParam('memo', $memo);
 
@@ -81,7 +80,7 @@ class Charge extends AbstractEntity
      * @see Charge::setAmountInCents()
      * @see Charge::setMemo()
      */
-    public function create($subscriptionId)
+    public function create($subscriptionId): Charge
     {
         $service       = $this->getService();
         $rawData       = $this->getRawData(array('charge' => $this->getParams()));

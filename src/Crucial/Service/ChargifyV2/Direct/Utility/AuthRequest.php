@@ -52,7 +52,7 @@ class AuthRequest
      *
      * @return bool
      */
-    public function test()
+    public function test(): bool
     {
         $response = $this->request();
         $body     = trim((string)$response->getBody());
@@ -77,7 +77,7 @@ class AuthRequest
     /**
      * @return Client
      */
-    public function getHttpClient()
+    public function getHttpClient(): Client
     {
         return $this->httpClient;
     }
@@ -85,7 +85,7 @@ class AuthRequest
     /**
      * @return Response|false
      */
-    public function getLastResponse()
+    public function getLastResponse(): Response|false
     {
         return $this->lastResponse;
     }
@@ -93,7 +93,7 @@ class AuthRequest
     /**
      * @return Response|false|null
      */
-    protected function request()
+    protected function request(): Response|false|null
     {
         try {
             $response = $this->httpClient->post($this->direct->getSignupAction(), [

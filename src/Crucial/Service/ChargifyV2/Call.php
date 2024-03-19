@@ -26,7 +26,7 @@ class Call extends AbstractEntity
      *
      * @return Call
      */
-    public function readByChargifyId($callId)
+    public function readByChargifyId($callId): Call
     {
         $service = $this->getService();
 

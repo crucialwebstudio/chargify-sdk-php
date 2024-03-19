@@ -24,7 +24,7 @@ class Product extends AbstractEntity
      *
      * @return Product
      */
-    public function listProducts()
+    public function listProducts(): Product
     {
         $service = $this->getService();
 
@@ -47,7 +47,7 @@ class Product extends AbstractEntity
      *
      * @return Product
      */
-    public function readByChargifyId($id)
+    public function readByChargifyId($id): Product
     {
         $service = $this->getService();
 
@@ -70,7 +70,7 @@ class Product extends AbstractEntity
      *
      * @return Product
      */
-    public function readByHandle($handle)
+    public function readByHandle($handle): Product
     {
         $service = $this->getService();
 

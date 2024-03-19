@@ -1,4 +1,6 @@
 <?php
+namespace Test\Helpers;
+
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Response;
 
@@ -16,7 +18,7 @@ class MockResponse
      */
     public static function write(Response $response, $filename)
     {
-        $responseString = Psr7\str($response);
+        $responseString = Psr7\Message::toString($response);
 
         // remove identifying information
         $responseString = preg_replace("/^Set-Cookie: (.*)$/im", "Set-Cookie: removed", $responseString);

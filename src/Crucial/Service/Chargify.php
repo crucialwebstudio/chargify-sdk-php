@@ -24,6 +24,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use Crucial\Service\Chargify\Exception\BadMethodCallException;
+use Crucial\Service\Chargify\Exception\InvalidArgumentException;
 use Crucial\Service\Chargify\Adjustment;
 use Crucial\Service\Chargify\Charge;
 use Crucial\Service\Chargify\Component;
@@ -43,7 +44,7 @@ class Chargify
     /**
      * Version
      */
-    const VERSION = '0.1.1';
+    public const VERSION = '1.0.0';
 
     /**
      * Guzzle http client
@@ -126,10 +127,18 @@ class Chargify
             $this->timeout   = $config['timeout'];
         }
 
+        $httpHandler = isset($config['GuzzleHttp\Client']['handler']) ? $config['GuzzleHttp\Client']['handler'] : null;
+
+        if (empty($httpHandler)) {
+            $httpHandler = HandlerStack::create();
+        }
+        if (! $httpHandler instanceof HandlerStack) {
+            throw new InvalidArgumentException("config['GuzzleHttp\Client']['handler'] is not an instance of ".HandlerStack::class);
+        }
 
         $this->httpClient = new Client([
             'base_uri'        => 'https://' . $this->hostname . '/',
-            'handler'         => HandlerStack::create(),
+            'handler'         => $httpHandler,
             'timeout'         => $this->timeout,
             'allow_redirects' => false,
             'auth'            => [$this->apiKey, $this->password],
@@ -189,7 +198,7 @@ class Chargify
         }
 
         if (!empty($rawData)) {
-            $options['body'] = Psr7\stream_for($rawData);
+            $options['body'] = Psr7\Utils::streamFor($rawData);
         }
 
         try {
