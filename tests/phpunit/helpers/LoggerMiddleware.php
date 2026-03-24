@@ -128,7 +128,7 @@ class LoggerMiddleware
      */
     protected function log(
         RequestInterface $request,
-        ResponseInterface $response = null,
+        ?ResponseInterface $response = null,
         $reason = null
     ) {
         if ($reason instanceof RequestException) {
@@ -157,7 +157,7 @@ class LoggerMiddleware
      */
     protected function getLogMessage(
         RequestInterface $request,
-        ResponseInterface $response = null,
+        ?ResponseInterface $response = null,
         $reason = null
     ) {
         if ($this->formatter instanceof MessageFormatter) {
@@ -178,7 +178,7 @@ class LoggerMiddleware
      *
      * @return string LogLevel
      */
-    protected function getLogLevel(ResponseInterface $response = null)
+    protected function getLogLevel(?ResponseInterface $response = null)
     {
         if ( ! $this->logLevel) {
             return $this->getDefaultLogLevel($response);
@@ -198,7 +198,7 @@ class LoggerMiddleware
      *
      * @return string LogLevel
      */
-    protected function getDefaultLogLevel(ResponseInterface $response = null) {
+    protected function getDefaultLogLevel(?ResponseInterface $response = null) {
         if ($response && $response->getStatusCode() >= 300) {
             return LogLevel::NOTICE;
         }
